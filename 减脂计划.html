@@ -6,42 +6,51 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="减脂计划">
-  <meta name="theme-color" content="#f8f7f4">
+  <meta name="theme-color" content="#fff5fb">
   <title>减脂计划</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     /* ========== CSS 变量 ========== */
     :root {
-      /* 颜色 */
-      --bg: #f8f7f4;
+      /* 颜色 - Kawaii Fitness */
+      --bg: #fff5fb;
       --card: #ffffff;
-      --border: #e8e5e0;
-      --primary: #7c5cf5;
-      --primary-light: #ede9fe;
-      --success: #10b981;
-      --success-light: #ecfdf5;
+      --border: #ffd6eb;
+      --primary: #ff4fa3;
+      --primary-light: #ffe4f3;
+      --purple: #c084fc;
+      --purple-light: #f5e8ff;
+      --yellow: #fbbf24;
+      --yellow-light: #fef9c3;
+      --blue: #60a5fa;
+      --blue-light: #dbeafe;
+      --success: #34d399;
+      --success-light: #d1fae5;
       --warning: #f59e0b;
       --danger: #ef4444;
-      --pink: #ec4899;
-      --pink-light: #fdf2f8;
-      --text-primary: #1a1a2e;
-      --text-secondary: #6b7280;
-      --text-weak: #9ca3af;
-      --gray: #9ca3af;
-      --gray-light: #f3f4f6;
-      
+      --pink: #ff4fa3;
+      --pink-light: #ffe4f3;
+      --text-primary: #3d1a6e;
+      --text-secondary: #9b7aab;
+      --text-weak: #c4a8d4;
+      --gray: #c4a8d4;
+      --gray-light: #f5e8ff;
+
       /* 圆角 */
-      --radius-card: 16px;
-      --radius-inner: 12px;
-      --radius-pill: 20px;
-      --radius-btn: 10px;
-      
+      --radius-card: 20px;
+      --radius-inner: 14px;
+      --radius-pill: 50px;
+      --radius-btn: 50px;
+
       /* 阴影 */
-      --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-elevated: 0 4px 16px rgba(0,0,0,0.1);
-      
+      --shadow-card: 0 4px 16px rgba(255,79,163,0.08);
+      --shadow-elevated: 0 8px 24px rgba(255,79,163,0.15);
+
       /* 尺寸 */
       --tab-bar-height: 64px;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --header-height: 80px;
     }
 
     /* ========== 基础重置 ========== */
@@ -54,7 +63,7 @@
 
     html, body {
       height: 100%;
-      font-family: -apple-system, 'PingFang SC', 'SF Pro Display', sans-serif;
+      font-family: 'Nunito', -apple-system, 'PingFang SC', sans-serif;
       background: var(--bg);
       color: var(--text-primary);
       overflow-x: hidden;
@@ -68,6 +77,7 @@
     .page {
       display: none;
       padding: 20px 16px;
+      padding-top: calc(var(--header-height) + 20px);
       min-height: 100vh;
     }
 
@@ -77,15 +87,17 @@
 
     .page-title {
       font-size: 26px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 20px;
-      color: var(--text-primary);
+      color: var(--primary);
+      letter-spacing: -0.3px;
     }
 
     /* ========== 卡片组件 ========== */
     .card {
       background: var(--card);
       border-radius: var(--radius-card);
+      border: 2px solid var(--border);
       box-shadow: var(--shadow-card);
       padding: 16px;
       margin-bottom: 12px;
@@ -93,7 +105,7 @@
 
     .card-title {
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       margin-bottom: 12px;
       color: var(--text-primary);
     }
@@ -247,18 +259,18 @@
     }
 
     .label-strength {
-      background: var(--primary-light);
-      color: var(--primary);
+      background: var(--purple-light);
+      color: var(--purple);
     }
 
     .label-cardio {
-      background: var(--success-light);
-      color: var(--success);
+      background: var(--blue-light);
+      color: var(--blue);
     }
 
     .label-dance {
-      background: var(--pink-light);
-      color: var(--pink);
+      background: var(--primary-light);
+      color: var(--primary);
     }
 
     .label-rest {
@@ -271,9 +283,9 @@
       padding: 12px 24px;
       border-radius: var(--radius-btn);
       border: 2px solid var(--border);
-      background: var(--card);
+      background: white;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-secondary);
       cursor: pointer;
       transition: all 0.2s ease;
@@ -282,11 +294,12 @@
       justify-content: center;
       gap: 6px;
       min-width: 120px;
+      font-family: 'Nunito', sans-serif;
     }
 
     .btn-check.checked {
-      background: var(--success);
-      border-color: var(--success);
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      border-color: transparent;
       color: white;
       animation: checkBounce 0.3s ease;
     }
@@ -363,12 +376,13 @@
       right: 0;
       height: calc(var(--tab-bar-height) + var(--safe-bottom));
       padding-bottom: var(--safe-bottom);
-      background: var(--card);
-      border-top: 1px solid var(--border);
+      background: white;
+      border-top: 2px solid var(--border);
       display: flex;
       justify-content: space-around;
       align-items: center;
       z-index: 1000;
+      box-shadow: 0 -4px 20px rgba(255,79,163,0.08);
     }
 
     .tab-item {
@@ -391,22 +405,23 @@
     .tab-item.active::after {
       content: '';
       position: absolute;
-      bottom: 8px;
+      top: 6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 20px;
+      width: 28px;
       height: 3px;
-      background: var(--primary);
-      border-radius: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--purple));
+      border-radius: 3px;
     }
 
     .tab-icon {
       font-size: 22px;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     .tab-label {
       font-size: 11px;
+      font-weight: 700;
     }
 
     /* ========== 今日页特殊样式 ========== */
@@ -485,11 +500,11 @@
 
     /* ========== 训练动作列表 ========== */
     .training-item {
-      background: var(--card);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 14px;
       margin-bottom: 8px;
-      box-shadow: var(--shadow-card);
     }
 
     .training-header {
@@ -617,16 +632,18 @@
 
     /* ========== 动作库样式 ========== */
     .exercise-lib-item {
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 14px;
       margin-bottom: 10px;
       cursor: pointer;
-      transition: background 0.2s ease;
+      transition: border-color 0.2s ease, background 0.2s ease;
     }
 
     .exercise-lib-item:hover {
-      background: var(--border);
+      border-color: var(--primary);
+      background: var(--primary-light);
     }
 
     .exercise-lib-header {
@@ -739,7 +756,8 @@
     }
 
     .goal-item {
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 16px;
       text-align: center;
@@ -747,7 +765,7 @@
 
     .goal-number {
       font-size: 28px;
-      font-weight: 600;
+      font-weight: 800;
       color: var(--primary);
     }
 
@@ -773,10 +791,10 @@
       text-align: center;
     }
 
-    .type-strength { background: #ede9fe; color: #7c5cf5; }
-    .type-cardio { background: #d1fae5; color: #10b981; }
-    .type-dance { background: #fce7f3; color: #ec4899; }
-    .type-rest { background: #f3f4f6; color: #6b7280; }
+    .type-strength { background: var(--purple-light); color: var(--purple); }
+    .type-cardio { background: var(--blue-light); color: var(--blue); }
+    .type-dance { background: var(--primary-light); color: var(--primary); }
+    .type-rest { background: var(--gray-light); color: var(--gray); }
 
     .hand-guide {
       display: flex;
@@ -808,7 +826,8 @@
     }
 
     .quick-meal {
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 14px;
     }
@@ -822,7 +841,7 @@
 
     .quick-meal-label {
       font-size: 14px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--primary);
     }
 
@@ -845,7 +864,7 @@
 
     .card-warning {
       background: #fff7ed;
-      border: 1px solid #fed7aa;
+      border-color: #fed7aa;
     }
 
     .card-warning .card-title {
@@ -975,15 +994,40 @@
     }
 
     .stat-item {
-      background: var(--bg);
+      background: white;
       border-radius: var(--radius-inner);
+      border: 2px solid var(--border);
       padding: 16px;
       text-align: center;
     }
 
+    .stats-grid .stat-item:nth-child(1) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+    }
+    .stats-grid .stat-item:nth-child(1) .stat-number { color: var(--primary); }
+
+    .stats-grid .stat-item:nth-child(2) {
+      border-color: var(--purple);
+      background: var(--purple-light);
+    }
+    .stats-grid .stat-item:nth-child(2) .stat-number { color: var(--purple); }
+
+    .stats-grid .stat-item:nth-child(3) {
+      border-color: var(--blue);
+      background: var(--blue-light);
+    }
+    .stats-grid .stat-item:nth-child(3) .stat-number { color: var(--blue); }
+
+    .stats-grid .stat-item:nth-child(4) {
+      border-color: var(--yellow);
+      background: var(--yellow-light);
+    }
+    .stats-grid .stat-item:nth-child(4) .stat-number { color: var(--yellow); }
+
     .stat-number {
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 800;
       color: var(--primary);
     }
 
@@ -991,6 +1035,7 @@
       font-size: 12px;
       color: var(--text-weak);
       margin-top: 4px;
+      font-weight: 600;
     }
 
     .progress-container {
@@ -1003,27 +1048,28 @@
       font-size: 13px;
       color: var(--text-weak);
       margin-bottom: 8px;
+      font-weight: 600;
     }
 
     .progress-bar-bg {
-      height: 12px;
-      background: var(--bg);
-      border-radius: 6px;
+      height: 14px;
+      background: var(--primary-light);
+      border-radius: 8px;
       overflow: hidden;
     }
 
     .progress-bar-fill {
       height: 100%;
-      background: var(--primary);
-      border-radius: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--purple));
+      border-radius: 8px;
       transition: width 0.5s ease;
     }
 
     .progress-percent {
       text-align: center;
-      font-size: 14px;
+      font-size: 16px;
       color: var(--primary);
-      font-weight: 500;
+      font-weight: 800;
       margin-top: 8px;
     }
 
@@ -1038,8 +1084,9 @@
       align-items: center;
       gap: 12px;
       padding: 12px;
-      background: var(--bg);
+      background: white;
       border-radius: var(--radius-inner);
+      border: 2px solid var(--border);
     }
 
     .milestone-dot {
@@ -1051,7 +1098,7 @@
     }
 
     .milestone.completed .milestone-dot {
-      background: var(--success);
+      background: var(--primary);
     }
 
     .milestone.current .milestone-dot {
@@ -1070,7 +1117,7 @@
     }
 
     .milestone.completed .milestone-weight {
-      color: var(--success);
+      color: var(--primary);
     }
 
     .milestone.current .milestone-weight {
@@ -1127,14 +1174,15 @@
 
     .btn-record {
       width: 100%;
-      padding: 12px;
-      background: var(--primary);
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
       color: white;
       border: none;
-      border-radius: var(--radius-inner);
+      border-radius: var(--radius-btn);
       font-size: 15px;
-      font-weight: 500;
+      font-weight: 700;
       cursor: pointer;
+      font-family: 'Nunito', sans-serif;
     }
 
     .btn-record:active {
@@ -1152,7 +1200,8 @@
       justify-content: space-between;
       align-items: center;
       padding: 12px;
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       font-size: 13px;
     }
@@ -1304,27 +1353,28 @@
     .sup-group {
       padding: 12px;
       border-radius: var(--radius-inner);
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
     }
 
     .sup-group.must {
       background: #ecfdf5;
-      border-left: 3px solid var(--success);
+      border-color: var(--success);
     }
 
     .sup-group.recommend {
-      background: #ede9fe;
-      border-left: 3px solid var(--primary);
+      background: var(--primary-light);
+      border-color: var(--primary);
     }
 
     .sup-group.optional {
-      background: #fef3c7;
-      border-left: 3px solid #f59e0b;
+      background: var(--yellow-light);
+      border-color: var(--yellow);
     }
 
     .sup-group.avoid {
       background: #fef2f2;
-      border-left: 3px solid var(--error);
+      border-color: var(--danger);
     }
 
     .sup-group-title {
@@ -1364,7 +1414,8 @@
     }
 
     .supplement-schedule {
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 14px;
     }
@@ -1496,14 +1547,16 @@
     .blogger-item {
       display: block;
       padding: 14px;
-      background: var(--bg);
+      background: white;
+      border: 2px solid var(--border);
       border-radius: var(--radius-inner);
       text-decoration: none;
-      transition: background 0.2s;
+      transition: border-color 0.2s, background 0.2s;
     }
 
     .blogger-item:active {
-      background: var(--border);
+      border-color: var(--primary);
+      background: var(--primary-light);
     }
 
     .blogger-name {
@@ -1525,11 +1578,11 @@
 
     .card-danger {
       background: #fef2f2;
-      border: 1px solid #fecaca;
+      border-color: #fecaca;
     }
 
     .card-danger .card-title {
-      color: var(--error);
+      color: var(--danger);
     }
 
     .avoid-list {
@@ -1558,6 +1611,132 @@
       color: #7f1d1d;
     }
 
+    /* ========== 训练切换按钮 ========== */
+    .btn-switch-training {
+      margin-left: auto;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: white;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .btn-switch-training:active {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    /* ========== 训练选择底部弹层 ========== */
+    #training-picker-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(61,26,110,0.3);
+      z-index: 2000;
+    }
+
+    #training-picker-sheet {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-radius: 24px 24px 0 0;
+      border-top: 2px solid var(--border);
+      padding: 12px 20px 40px;
+      z-index: 2001;
+      box-shadow: 0 -8px 32px rgba(255,79,163,0.15);
+    }
+
+    #training-picker-overlay.active,
+    #training-picker-sheet.active {
+      display: block;
+    }
+
+    .picker-handle {
+      width: 40px;
+      height: 4px;
+      background: var(--border);
+      border-radius: 4px;
+      margin: 0 auto 16px;
+    }
+
+    .picker-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .picker-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .picker-option {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: var(--radius-inner);
+      border: 2px solid var(--border);
+      background: white;
+      cursor: pointer;
+      text-align: left;
+      font-family: 'Nunito', sans-serif;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .picker-option:active {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .picker-option.selected {
+      background: var(--primary-light);
+      border-color: var(--primary);
+    }
+
+    .picker-option-reset {
+      border-style: dashed;
+      background: var(--bg);
+    }
+
+    .picker-opt-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .picker-opt-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-primary);
+      flex: 1;
+    }
+
+    .picker-opt-desc {
+      font-size: 12px;
+      color: var(--text-weak);
+    }
+
+    /* 有覆盖时在标签旁显示提示 */
+    .label-override-hint {
+      font-size: 11px;
+      color: var(--text-weak);
+      font-weight: 600;
+    }
+
     /* ========== 辅助类 ========== */
     .text-center { text-align: center; }
     .mt-1 { margin-top: 8px; }
@@ -1565,6 +1744,94 @@
     .mb-1 { margin-bottom: 8px; }
     .mb-2 { margin-bottom: 16px; }
     .hidden { display: none !important; }
+
+    /* ========== Kawaii 顶部 Header ========== */
+    .kawaii-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--header-height);
+      background: white;
+      border-bottom: 2px solid var(--border);
+      box-shadow: 0 4px 16px rgba(255,79,163,0.08);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+
+    .kawaii-title {
+      font-size: 28px;
+      font-weight: 900;
+      color: var(--primary);
+      font-style: italic;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+
+    .kawaii-title .star {
+      color: var(--yellow);
+      font-style: normal;
+    }
+
+    .kawaii-subtitle {
+      font-size: 10px;
+      color: var(--purple);
+      letter-spacing: 0.08em;
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    /* 今日日期行 */
+    .today-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .today-date {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+
+    /* tl-card 样式更新 */
+    .tl-card {
+      flex: 1;
+      background: white;
+      border: 2px solid var(--border);
+      border-radius: var(--radius-inner);
+      padding: 12px;
+      margin-left: 8px;
+    }
+
+    /* 打卡按钮背景 */
+    .checkin-area {
+      background: transparent;
+    }
+
+    /* 进度环占位 - 将来可扩展 */
+    .calendar-day.today {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .dot-training { background: var(--primary); }
+    .dot-diet { background: var(--purple); }
+
+    /* input 样式 kawaii */
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+
+    /* 滚动条 */
+    ::-webkit-scrollbar { width: 0; }
   </style>
 </head>
 <body>
@@ -1596,6 +1863,12 @@
 
   <div id="app-content" style="display:none;">
 
+  <!-- ========== Kawaii 顶部 Header ========== -->
+  <div class="kawaii-header">
+    <div class="kawaii-title">Diet <span class="star">★</span></div>
+    <div class="kawaii-subtitle">✦·:*✦ KAWAII FITNESS ✦*:·✦</div>
+  </div>
+
   <!-- ========== 页面内容 ========== -->
   
   <!-- 今天 -->
@@ -1604,6 +1877,41 @@
     <div class="today-header">
       <div class="today-date" id="today-date">4月10日 周四</div>
       <span class="label" id="today-label">力量</span>
+      <button class="btn-switch-training" onclick="showTrainingPicker()" title="修改今日训练">🔄</button>
+    </div>
+
+    <!-- 训练类型选择底部弹层 -->
+    <div id="training-picker-overlay" onclick="hideTrainingPicker()"></div>
+    <div id="training-picker-sheet">
+      <div class="picker-handle"></div>
+      <div class="picker-title">今日训练 · 选一个 ✦</div>
+      <div class="picker-options">
+        <button class="picker-option" onclick="applyTrainingOverride('strength')">
+          <span class="picker-opt-icon">🏋️</span>
+          <span class="picker-opt-label">力量日</span>
+          <span class="picker-opt-desc">深蹲 硬拉 臀推…</span>
+        </button>
+        <button class="picker-option" onclick="applyTrainingOverride('cardio')">
+          <span class="picker-opt-icon">🚴</span>
+          <span class="picker-opt-label">有氧日</span>
+          <span class="picker-opt-desc">单车 Zone 2</span>
+        </button>
+        <button class="picker-option" onclick="applyTrainingOverride('dance')">
+          <span class="picker-opt-icon">💃</span>
+          <span class="picker-opt-label">街舞日</span>
+          <span class="picker-opt-desc">舞蹈 2h15min</span>
+        </button>
+        <button class="picker-option" onclick="applyTrainingOverride('rest')">
+          <span class="picker-opt-icon">💤</span>
+          <span class="picker-opt-label">休息日</span>
+          <span class="picker-opt-desc">完全休息</span>
+        </button>
+        <button class="picker-option picker-option-reset" onclick="resetTrainingOverride()">
+          <span class="picker-opt-icon">↩️</span>
+          <span class="picker-opt-label">恢复原计划</span>
+          <span class="picker-opt-desc">按本周默认安排</span>
+        </button>
+      </div>
     </div>
 
     <!-- 饮食时间轴 -->
@@ -2602,6 +2910,12 @@
       }
     };
 
+    // 按类型名查找 plan（供覆盖功能使用）
+    weekPlan['strength'] = weekPlan[1];
+    weekPlan['cardio']   = weekPlan[2];
+    weekPlan['dance']    = weekPlan[3];
+    weekPlan['rest']     = weekPlan[5];
+
     // 饮食方案
     const meals = {
       strength: [ // 力量日 ~1280kcal / 117g蛋白
@@ -2637,11 +2951,68 @@
       return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
     }
 
-    // 获取今日计划
+    // 获取今日计划（支持当日覆盖）
     function getTodayPlan() {
+      const todayKey = getTodayKey();
+      const override = localStorage.getItem(`training-override-${todayKey}`);
+      if (override && weekPlan[override]) {
+        return weekPlan[override];
+      }
       const dayOfWeek = new Date().getDay();
       const dayKey = dayOfWeek === 0 ? 7 : dayOfWeek;
       return weekPlan[dayKey];
+    }
+
+    // 获取原始（默认）今日计划
+    function getDefaultTodayPlan() {
+      const dayOfWeek = new Date().getDay();
+      const dayKey = dayOfWeek === 0 ? 7 : dayOfWeek;
+      return weekPlan[dayKey];
+    }
+
+    // 显示训练类型选择器
+    function showTrainingPicker() {
+      const overlay = document.getElementById('training-picker-overlay');
+      const sheet = document.getElementById('training-picker-sheet');
+      const currentPlan = getTodayPlan();
+      // 标记当前选中
+      document.querySelectorAll('.picker-option').forEach(btn => btn.classList.remove('selected'));
+      const overrideKey = localStorage.getItem(`training-override-${getTodayKey()}`);
+      const currentType = overrideKey || getDefaultTodayPlan().type;
+      document.querySelectorAll('.picker-option').forEach(btn => {
+        const onclick = btn.getAttribute('onclick');
+        if (onclick && onclick.includes(`'${currentType}'`)) btn.classList.add('selected');
+      });
+      overlay.classList.add('active');
+      sheet.classList.add('active');
+    }
+
+    // 隐藏选择器
+    function hideTrainingPicker() {
+      document.getElementById('training-picker-overlay').classList.remove('active');
+      document.getElementById('training-picker-sheet').classList.remove('active');
+    }
+
+    // 应用覆盖
+    function applyTrainingOverride(type) {
+      const todayKey = getTodayKey();
+      localStorage.setItem(`training-override-${todayKey}`, type);
+      hideTrainingPicker();
+      renderTodayHeader();
+      renderTodayMeals();
+      renderTodayTraining();
+      renderTodaySupplements();
+    }
+
+    // 恢复原计划
+    function resetTrainingOverride() {
+      const todayKey = getTodayKey();
+      localStorage.removeItem(`training-override-${todayKey}`);
+      hideTrainingPicker();
+      renderTodayHeader();
+      renderTodayMeals();
+      renderTodayTraining();
+      renderTodaySupplements();
     }
 
     // 渲染日期和类型标签
@@ -2656,8 +3027,11 @@
       
       const plan = getTodayPlan();
       const labelEl = document.getElementById('today-label');
-      labelEl.textContent = plan.label;
+      const todayKey = getTodayKey();
+      const hasOverride = !!localStorage.getItem(`training-override-${todayKey}`);
+      labelEl.textContent = plan.label + (hasOverride ? ' ✦' : '');
       labelEl.className = `label label-${plan.type}`;
+      labelEl.title = hasOverride ? '今日计划已修改（点🔄可恢复）' : '';
     }
 
     // 渲染饮食时间轴
