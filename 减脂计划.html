@@ -2963,10 +2963,9 @@
       const todayKey = getTodayKey();
       localStorage.setItem(`training-override-${todayKey}`, type);
       hideTrainingPicker();
-      renderTodayHeader();
-      renderTodayMeals();
-      renderTodayTraining();
-      renderTodaySupplements();
+      // 刷新新版今日页
+      renderWelcomeState();
+      renderTrainingState();
     }
 
     // 恢复原计划
@@ -2974,10 +2973,9 @@
       const todayKey = getTodayKey();
       localStorage.removeItem(`training-override-${todayKey}`);
       hideTrainingPicker();
-      renderTodayHeader();
-      renderTodayMeals();
-      renderTodayTraining();
-      renderTodaySupplements();
+      // 刷新新版今日页
+      renderWelcomeState();
+      renderTrainingState();
     }
 
     // 渲染日期和类型标签
