@@ -6,68 +6,84 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="减脂计划">
-  <meta name="theme-color" content="#f9f9f9">
+  <meta name="theme-color" content="#ffffff">
   <title>减脂计划</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;0,800;0,900;1,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    /* ========== CSS 变量 ========== */
+    /* ========== CSS 变量 — Rasmus原则：只保留有意义的 ========== */
     :root {
-      /* 颜色系统 — 设计小组决策版 */
-      /* 背景：近白，大片留白让内容呼吸 */
-      --bg: #f9f9f9;
-      --card: #ffffff;
+      /* 背景：真白，卡片跟背景靠间距区分，不靠阴影 */
+      --bg: #ffffff;
+      --bg-subtle: #f6f6f6;
+      --bg-raised: #ffffff;
 
-      /* Accent：只用于「完成/active」时刻，其他地方不出现 */
-      --accent: #ff4fa3;
-      --accent-light: #fff0f7;
-      --accent-dim: rgba(255,79,163,0.12);
+      /* 唯一强调色：只在「完成」「active」时出现 */
+      --accent: #e8397d;
+      --accent-fg: #ffffff;
 
-      /* 层级色（三层卡片系统） */
-      --border: rgba(0,0,0,0.07);
-      --border-strong: rgba(0,0,0,0.15);
-      --surface-2: #f4f4f4;  /* 信息卡片背景 */
+      /* 文字三级 */
+      --t1: #0d0d0d;
+      --t2: #6b6b6b;
+      --t3: #b0b0b0;
 
-      /* 保留功能色 */
-      --purple: #8b5cf6;
-      --purple-light: #ede9fe;
-      --yellow: #f59e0b;
-      --yellow-light: #fef3c7;
-      --blue: #3b82f6;
-      --blue-light: #dbeafe;
-      --success: #10b981;
-      --success-light: #d1fae5;
-      --warning: #f59e0b;
-      --danger: #ef4444;
+      /* 分割线：极淡 */
+      --line: rgba(0,0,0,0.08);
 
-      /* 向下兼容旧变量名 */
+      /* 功能色：只用于数据语义，不做装饰 */
+      --green: #16a34a;
+      --green-bg: #f0fdf4;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --blue: #2563eb;
+      --blue-bg: #eff6ff;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+
+      /* 向下兼容（旧HTML引用这些变量名） */
       --primary: var(--accent);
-      --primary-light: var(--accent-light);
-      --pink: var(--accent);
-      --pink-light: var(--accent-light);
+      --primary-light: #fce7f3;
+      --text-primary: var(--t1);
+      --text-secondary: var(--t2);
+      --text-weak: var(--t3);
+      --card: var(--bg-raised);
+      --border: var(--line);
+      --border-strong: rgba(0,0,0,0.14);
+      --surface-2: var(--bg-subtle);
+      --success: var(--green);
+      --success-light: var(--green-bg);
+      --danger: var(--red);
+      --warning: var(--amber);
+      --yellow: var(--amber);
+      --yellow-light: var(--amber-bg);
+      --blue-light: var(--blue-bg);
+      --purple-light: var(--purple-bg);
       --gray: #9ca3af;
       --gray-light: #f3f4f6;
+      --error: var(--red);
+      --error-light: var(--red-bg);
 
-      /* 文字：接近黑，高可读性 */
-      --text-primary: #111111;
-      --text-secondary: #555555;
-      --text-weak: #9ca3af;
+      /* 圆角：克制 */
+      --r-sm: 6px;
+      --r-md: 10px;
+      --r-lg: 14px;
+      --r-pill: 999px;
+      --radius-card: var(--r-lg);
+      --radius-inner: var(--r-md);
+      --radius-pill: var(--r-pill);
+      --radius-btn: var(--r-pill);
 
-      /* 圆角 */
-      --radius-card: 16px;
-      --radius-inner: 12px;
-      --radius-pill: 50px;
-      --radius-btn: 50px;
-
-      /* 三层阴影系统 */
-      --shadow-hero: 4px 4px 0px var(--accent);  /* 英雄卡片 neo-brutal */
-      --shadow-card: 0 2px 8px rgba(0,0,0,0.06); /* 内容卡片 */
-      --shadow-elevated: 0 8px 24px rgba(0,0,0,0.10);
+      /* 阴影：只有一种，非常轻 */
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 0 0 1px rgba(0,0,0,0.04);
+      --shadow-hero: var(--shadow-card);
+      --shadow-elevated: 0 4px 16px rgba(0,0,0,0.12);
 
       /* 尺寸 */
-      --tab-bar-height: 64px;
+      --tab-bar-height: 56px;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --header-height: 72px;
+      --header-height: 52px;
     }
 
     /* ========== 基础重置 ========== */
@@ -81,9 +97,10 @@
     html, body {
       height: 100%;
       font-family: 'Inter', -apple-system, 'PingFang SC', sans-serif;
-      background: var(--bg);
-      color: var(--text-primary);
+      background: var(--bg-subtle);
+      color: var(--t1);
       overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
@@ -93,8 +110,8 @@
     /* ========== 页面容器 ========== */
     .page {
       display: none;
-      padding: 20px 16px;
-      padding-top: calc(var(--header-height) + 20px);
+      padding: 16px;
+      padding-top: calc(var(--header-height) + 16px);
       min-height: 100vh;
     }
 
@@ -103,50 +120,32 @@
     }
 
     .page-title {
-      font-size: 22px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: var(--text-primary);
-      letter-spacing: -0.3px;
-      font-family: 'Nunito', sans-serif;
-    }
-
-    /* ========== 卡片组件 — 三层层级系统 ========== */
-    /* 层级2：内容卡片（默认） */
-    .card {
-      background: var(--card);
-      border-radius: var(--radius-card);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-card);
-      padding: 16px;
-      margin-bottom: 12px;
-    }
-
-    /* 层级1：英雄卡片，neo-brutal，只用于首屏重要情感触点 */
-    .card-hero {
-      background: var(--card);
-      border-radius: var(--radius-card);
-      border: 2px solid #111111;
-      box-shadow: var(--shadow-hero);
-      padding: 16px;
+      font-size: 16px;
+      font-weight: 600;
       margin-bottom: 16px;
+      color: var(--t1);
+      letter-spacing: -0.2px;
     }
 
-    /* 层级3：信息卡片，无border，浅色背景 */
-    .card-surface {
-      background: var(--surface-2);
-      border-radius: var(--radius-inner);
-      padding: 14px;
-      margin-bottom: 10px;
+    /* ========== 卡片 — 白底，靠间距和圆角区分层级，不靠阴影 ========== */
+    .card {
+      background: var(--bg-raised);
+      border-radius: var(--r-lg);
+      padding: 16px;
+      margin-bottom: 8px;
     }
+
+    /* hero和surface都归并到card，统一白底，去掉噪声 */
+    .card-hero { background: var(--bg-raised); border-radius: var(--r-lg); padding: 16px; margin-bottom: 8px; }
+    .card-surface { background: var(--bg-subtle); border-radius: var(--r-md); padding: 14px; margin-bottom: 8px; }
 
     .card-title {
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 600;
       margin-bottom: 12px;
-      color: var(--text-secondary);
+      color: var(--t3);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.06em;
     }
 
     /* ========== 时间轴组件 ========== */
@@ -177,10 +176,10 @@
     }
 
     .tl-dot {
-      width: 8px;
-      height: 8px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--primary);
+      background: var(--t3);
       position: relative;
       z-index: 1;
     }
@@ -210,28 +209,29 @@
     }
 
     .tl-title {
-      font-size: 14px;
-      font-weight: 600;
-      margin-bottom: 4px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 3px;
+      color: var(--t1);
     }
 
     .tl-food {
       font-size: 13px;
-      color: var(--text-primary);
+      color: var(--t1);
       margin-bottom: 4px;
       line-height: 1.5;
     }
 
     .tl-tip {
       font-size: 11px;
-      color: var(--text-weak);
+      color: var(--t3);
       margin-bottom: 6px;
       line-height: 1.4;
     }
 
     .tl-macro {
       font-size: 11px;
-      color: var(--primary);
+      color: var(--t2);
       font-weight: 500;
     }
 
@@ -321,43 +321,39 @@
       color: var(--gray);
     }
 
-    /* ========== 按钮组件 ========== */
+    /* ========== 打卡按钮 ========== */
     .btn-check {
-      padding: 14px 24px;
-      border-radius: var(--radius-btn);
-      border: 2px solid var(--border-strong);
-      background: white;
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-secondary);
+      padding: 13px 20px;
+      border-radius: var(--r-pill);
+      border: 1.5px solid var(--line);
+      background: var(--bg-raised);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--t2);
       cursor: pointer;
-      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+      transition: all 0.15s;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
-      min-width: 120px;
-      font-family: 'Inter', sans-serif;
+      min-width: 110px;
     }
 
     .btn-check:active {
       transform: scale(0.97);
     }
 
-    /* 打卡成功 — Jony的情感触点 + Rauno的bounce */
     .btn-check.checked {
       background: var(--accent);
       border-color: var(--accent);
-      color: white;
-      box-shadow: 0 4px 16px rgba(255,79,163,0.35);
-      animation: checkBounce 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+      color: var(--accent-fg);
+      animation: checkBounce 0.35s ease;
     }
 
     @keyframes checkBounce {
       0%   { transform: scale(1); }
-      25%  { transform: scale(1.10); }
-      50%  { transform: scale(0.95); }
-      75%  { transform: scale(1.04); }
+      30%  { transform: scale(1.07); }
+      60%  { transform: scale(0.96); }
       100% { transform: scale(1); }
     }
 
@@ -409,19 +405,19 @@
     }
 
     .stat-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-primary);
-      margin-bottom: 4px;
-      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--t1);
+      margin-bottom: 2px;
+      letter-spacing: -0.5px;
     }
 
     .stat-label {
-      font-size: 12px;
-      color: var(--text-secondary);
+      font-size: 11px;
+      color: var(--t3);
     }
 
-    /* ========== 底部 Tab Bar ========== */
+    /* ========== Tab Bar — 文字导航，去掉emoji噪声 ========== */
     .tab-bar {
       position: fixed;
       bottom: 0;
@@ -429,15 +425,14 @@
       right: 0;
       height: calc(var(--tab-bar-height) + var(--safe-bottom));
       padding-bottom: var(--safe-bottom);
-      background: rgba(255,255,255,0.95);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-top: 1px solid var(--border);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--line);
       display: flex;
       justify-content: space-around;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 -1px 0 rgba(0,0,0,0.05);
     }
 
     .tab-item {
@@ -449,40 +444,31 @@
       height: var(--tab-bar-height);
       cursor: pointer;
       position: relative;
-      color: var(--text-weak);
-      transition: color 0.18s ease;
+      color: var(--t3);
+      transition: color 0.15s;
+      gap: 3px;
     }
 
     .tab-item.active {
-      color: var(--accent);
+      color: var(--t1);
     }
 
     .tab-item.active .tab-icon {
-      transform: scale(1.08);
-    }
-
-    .tab-item.active::after {
-      content: '';
-      position: absolute;
-      bottom: 6px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 20px;
-      height: 3px;
-      background: var(--accent);
-      border-radius: 3px;
+      opacity: 1;
     }
 
     .tab-icon {
-      font-size: 22px;
-      margin-bottom: 2px;
-      transition: transform 0.18s ease;
+      font-size: 20px;
+      opacity: 0.45;
+      line-height: 1;
     }
+
+    .tab-item.active .tab-icon { opacity: 1; }
 
     .tab-label {
       font-size: 10px;
-      font-weight: 600;
-      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: 0.01em;
     }
 
     /* ========== 今日页特殊样式 ========== */
@@ -529,8 +515,8 @@
 
     .streak-text {
       text-align: center;
-      font-size: 13px;
-      color: var(--text-secondary);
+      font-size: 12px;
+      color: var(--t3);
       margin-bottom: 8px;
     }
 
@@ -585,14 +571,15 @@
     }
 
     .training-name {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 500;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
+      color: var(--t1);
     }
 
     .training-meta {
       font-size: 12px;
-      color: var(--text-secondary);
+      color: var(--t3);
     }
 
     .training-actions {
@@ -841,16 +828,16 @@
     }
 
     .goal-number {
-      font-size: 28px;
-      font-weight: 700;
-      color: var(--text-primary);
-      font-family: 'Inter', sans-serif;
+      font-size: 26px;
+      font-weight: 600;
+      color: var(--t1);
+      letter-spacing: -0.5px;
     }
 
     .goal-label {
-      font-size: 12px;
-      color: var(--text-weak);
-      margin-top: 4px;
+      font-size: 11px;
+      color: var(--t3);
+      margin-top: 3px;
     }
 
     .kcal-types {
@@ -1072,42 +1059,26 @@
     }
 
     .stat-item {
-      background: white;
-      border-radius: var(--radius-inner);
-      border: 2px solid var(--border);
-      padding: 16px;
+      background: var(--bg-raised);
+      border-radius: var(--r-md);
+      padding: 14px;
       text-align: center;
     }
 
-    .stats-grid .stat-item:nth-child(1) {
-      border-color: var(--primary);
-      background: var(--primary-light);
-    }
-    .stats-grid .stat-item:nth-child(1) .stat-number { color: var(--accent); }
-
-    .stats-grid .stat-item:nth-child(2) {
-      border-color: rgba(0,0,0,0.07);
-      background: white;
-    }
-    .stats-grid .stat-item:nth-child(2) .stat-number { color: var(--purple); }
-
-    .stats-grid .stat-item:nth-child(3) {
-      border-color: rgba(0,0,0,0.07);
-      background: white;
-    }
-    .stats-grid .stat-item:nth-child(3) .stat-number { color: var(--blue); }
-
-    .stats-grid .stat-item:nth-child(4) {
-      border-color: rgba(0,0,0,0.07);
-      background: white;
-    }
-    .stats-grid .stat-item:nth-child(4) .stat-number { color: var(--yellow); }
+    .stats-grid .stat-item:nth-child(1) { background: var(--bg-raised); }
+    .stats-grid .stat-item:nth-child(1) .stat-number { color: var(--t1); }
+    .stats-grid .stat-item:nth-child(2) { background: var(--bg-raised); }
+    .stats-grid .stat-item:nth-child(2) .stat-number { color: var(--t1); }
+    .stats-grid .stat-item:nth-child(3) { background: var(--bg-raised); }
+    .stats-grid .stat-item:nth-child(3) .stat-number { color: var(--t1); }
+    .stats-grid .stat-item:nth-child(4) { background: var(--bg-raised); }
+    .stats-grid .stat-item:nth-child(4) .stat-number { color: var(--t1); }
 
     .stat-number {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--text-primary);
-      font-family: 'Inter', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--t1);
+      letter-spacing: -0.5px;
     }
 
     .stat-label {
@@ -1131,25 +1102,25 @@
     }
 
     .progress-bar-bg {
-      height: 14px;
-      background: var(--primary-light);
-      border-radius: 8px;
+      height: 6px;
+      background: var(--bg-subtle);
+      border-radius: var(--r-pill);
       overflow: hidden;
     }
 
     .progress-bar-fill {
       height: 100%;
       background: var(--accent);
-      border-radius: 8px;
+      border-radius: var(--r-pill);
       transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .progress-percent {
       text-align: center;
-      font-size: 16px;
-      color: var(--primary);
-      font-weight: 800;
-      margin-top: 8px;
+      font-size: 13px;
+      color: var(--t2);
+      font-weight: 500;
+      margin-top: 6px;
     }
 
     .milestones {
@@ -1817,6 +1788,260 @@
       font-weight: 600;
     }
 
+    /* ========== 吉祥物 Mascot ========== */
+    .mascot-container {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      margin: 0 auto;
+      transition: transform 0.5s ease;
+    }
+
+    .mascot-container:hover {
+      transform: scale(1.05);
+    }
+
+    .mascot-bounce {
+      animation: mascotBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes mascotBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .mascot-pixel {
+      width: 100%;
+      height: 100%;
+      image-rendering: pixelated;
+    }
+
+    /* ========== 今日页双层结构 ========== */
+    .today-welcome {
+      min-height: calc(100vh - var(--header-height) - var(--tab-bar-height) - 40px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      cursor: pointer;
+      transition: opacity 0.6s ease, filter 0.6s ease;
+    }
+
+    .today-welcome.fade-out {
+      opacity: 0;
+      filter: blur(4px);
+      pointer-events: none;
+    }
+
+    .today-training-container {
+      opacity: 0;
+      filter: blur(8px);
+      transition: opacity 0.8s ease 0.2s, filter 0.8s ease 0.2s;
+      position: absolute;
+      top: calc(var(--header-height) + 16px);
+      left: 0;
+      right: 0;
+      bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 100px);
+      overflow-y: auto;
+      padding: 0 16px;
+      pointer-events: none;
+    }
+
+    .today-training-container.visible {
+      opacity: 1;
+      filter: blur(0);
+      pointer-events: auto;
+    }
+
+    .welcome-daytype {
+      font-size: 28px;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      letter-spacing: -0.5px;
+    }
+
+    .welcome-hint {
+      font-size: 12px;
+      color: var(--t3);
+      margin-top: 20px;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+
+    .today-welcome:hover .welcome-hint {
+      opacity: 1;
+    }
+
+    /* 不同训练日主题色 */
+    .day-strength .welcome-daytype { color: #e8397d; }
+    .day-strength .mascot-accent { fill: #e8397d; }
+
+    .day-cardio .welcome-daytype { color: #2563eb; }
+    .day-cardio .mascot-accent { fill: #2563eb; }
+
+    .day-dance .welcome-daytype { color: #7c3aed; }
+    .day-dance .mascot-accent { fill: #7c3aed; }
+
+    .day-rest .welcome-daytype { color: #6b7280; }
+    .day-rest .mascot-accent { fill: #9ca3af; }
+
+    /* ========== 视频内嵌播放器 ========== */
+    .video-player-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.95);
+      z-index: 2000;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .video-player-container.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .video-player-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      color: white;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .video-player-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-player-iframe {
+      flex: 1;
+      width: 100%;
+      border: none;
+    }
+
+    .video-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg-subtle);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: background 0.2s;
+    }
+
+    .video-btn:hover {
+      background: var(--accent);
+      color: white;
+    }
+
+    /* ========== 折叠式知识库 ========== */
+    .knowledge-section {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .knowledge-section:last-child {
+      border-bottom: none;
+    }
+
+    .knowledge-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 0;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--t1);
+      user-select: none;
+    }
+
+    .knowledge-header::after {
+      content: '▼';
+      font-size: 11px;
+      color: var(--t3);
+      transition: transform 0.3s ease;
+    }
+
+    .knowledge-section.expanded .knowledge-header::after {
+      transform: rotate(180deg);
+    }
+
+    .knowledge-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0;
+    }
+
+    .knowledge-section.expanded .knowledge-content {
+      max-height: 500px;
+      padding-bottom: 14px;
+    }
+
+    /* ========== 训练完成区域 ========== */
+    .training-complete-area {
+      position: fixed;
+      bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 12px);
+      left: 16px;
+      right: 16px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
+
+    .btn-skip, .btn-complete {
+      flex: 1;
+      padding: 14px 20px;
+      border-radius: var(--r-pill);
+      border: 1.5px solid var(--line);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-skip {
+      background: var(--bg-subtle);
+      color: var(--t2);
+    }
+
+    .btn-complete {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--accent-fg);
+    }
+
+    .btn-complete:active {
+      transform: scale(0.97);
+    }
+
+    .btn-complete.checked {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
     /* ========== 辅助类 ========== */
     .text-center { text-align: center; }
     .mt-1 { margin-top: 8px; }
@@ -1825,19 +2050,18 @@
     .mb-2 { margin-bottom: 16px; }
     .hidden { display: none !important; }
 
-    /* ========== Header — 安静退后，Jony原则 ========== */
+    /* ========== Header — 极简，退后到感知不到 ========== */
     .kawaii-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       height: var(--header-height);
-      background: rgba(249,249,249,0.92);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.94);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       z-index: 999;
@@ -1845,26 +2069,21 @@
     }
 
     .kawaii-title {
-      font-size: 24px;
-      font-weight: 900;
-      color: var(--text-primary);
-      font-family: 'Nunito', sans-serif;
-      font-style: italic;
-      line-height: 1;
-      letter-spacing: -0.5px;
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--t1);
+      font-family: 'Inter', sans-serif;
+      letter-spacing: -0.3px;
     }
 
+    /* star是唯一的accent点，保留，其他装饰全删 */
     .kawaii-title .star {
-      color: var(--accent);  /* accent只在这里点睛 */
-      font-style: normal;
+      color: var(--accent);
     }
 
+    /* 副标题：删掉，Do we need that? */
     .kawaii-subtitle {
-      font-size: 10px;
-      color: var(--text-weak);
-      letter-spacing: 0.1em;
-      margin-top: 4px;
-      font-weight: 500;
+      display: none;
     }
 
     /* 今日日期行 */
@@ -1876,9 +2095,10 @@
     }
 
     .today-date {
-      font-size: 22px;
-      font-weight: 800;
-      color: var(--text-primary);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--t1);
+      letter-spacing: -0.3px;
     }
 
     /* tl-card 样式更新 */
@@ -1891,13 +2111,18 @@
       margin-left: 8px;
     }
 
-    /* checkin-area 使用 card-hero 层级，保留布局公用样式 */
     .checkin-area {
       position: fixed;
-      bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 12px);
+      bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 10px);
       left: 16px;
       right: 16px;
       z-index: 100;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: var(--r-lg);
+      padding: 12px;
+      border: 1px solid var(--line);
     }
 
     /* 进度环占位 - 将来可扩展 */
@@ -1957,13 +2182,39 @@
 
   <!-- ========== 页面内容 ========== -->
   
-  <!-- 今天 -->
+  <!-- 今天 — 全新双层结构 -->
   <div id="page-today" class="page active">
-    <!-- 顶部日期+类型标签 -->
-    <div class="today-header">
-      <div class="today-date" id="today-date">4月10日 周四</div>
-      <span class="label" id="today-label">力量</span>
-      <button class="btn-switch-training" onclick="showTrainingPicker()" title="修改今日训练">🔄</button>
+
+    <!-- 第一层：欢迎态（点击后渐隐） -->
+    <div class="today-welcome" id="today-welcome" onclick="enterTrainingMode()">
+      <!-- 像素风格吉祥物 -->
+      <div class="mascot-container mascot-bounce" id="mascot-container">
+        <svg class="mascot-pixel" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 简单像素机器人/吉祥物 -->
+          <rect x="8" y="3" width="8" height="6" fill="#111" rx="1"/>
+          <rect x="6" y="9" width="12" height="10" fill="#111" rx="1"/>
+          <rect x="9" y="5" width="2" height="2" fill="#fff"/>
+          <rect x="13" y="5" width="2" height="2" fill="#fff"/>
+          <rect x="10" y="12" width="4" height="2" class="mascot-accent" fill="#e8397d" rx="0.5"/>
+          <rect x="4" y="11" width="2" height="6" fill="#555" rx="0.5"/>
+          <rect x="18" y="11" width="2" height="6" fill="#555" rx="0.5"/>
+          <rect x="7" y="19" width="3" height="4" fill="#111" rx="0.5"/>
+          <rect x="14" y="19" width="3" height="4" fill="#111" rx="0.5"/>
+          <!-- 天线 -->
+          <rect x="11" y="1" width="2" height="2" fill="#555"/>
+          <circle cx="12" cy="1" r="1" class="mascot-accent" fill="#e8397d"/>
+        </svg>
+      </div>
+
+      <!-- 今日主题 -->
+      <div class="welcome-daytype" id="welcome-daytype">加载中...</div>
+      <div id="welcome-subtitle" style="font-size: 14px; color: var(--t2);">查看今日训练计划</div>
+
+      <!-- 点击提示 -->
+      <div class="welcome-hint">点击任意处开始</div>
+
+      <!-- 切换训练类型按钮（小） -->
+      <button class="btn-switch-training" onclick="event.stopPropagation(); showTrainingPicker()" style="margin-top: 24px; opacity: 0.5;">切换训练类型</button>
     </div>
 
     <!-- 训练类型选择底部弹层 -->
@@ -2000,72 +2251,71 @@
       </div>
     </div>
 
-    <!-- 饮食时间轴 -->
-    <div class="card">
-      <div class="card-title">今日饮食</div>
-      <div class="timeline" id="today-meals">
-        <!-- 动态渲染 -->
+    <!-- 第二层：训练态（渐显） -->
+    <div class="today-training-container" id="today-training-container">
+
+      <!-- 今日日期 -->
+      <div class="today-header" style="margin-bottom: 16px;">
+        <div class="today-date" id="today-date-inner">加载中...</div>
+        <span class="label" id="today-label">力量</span>
       </div>
+
+      <!-- 训练列表 -->
+      <div class="card" style="margin-bottom: 12px;">
+        <div class="card-title">今日训练</div>
+        <div id="today-training-list">
+          <!-- 动态渲染：带视频按钮的动作列表 -->
+        </div>
+      </div>
+
+      <!-- 收尾动作 -->
+      <div class="card-surface" id="finisher-card" style="display: none;">
+        <div style="font-size: 13px; color: var(--t2);">收尾</div>
+        <div id="finisher-text" style="font-size: 14px; margin-top: 4px;"></div>
+      </div>
+
+      <!-- 每日食谱 -->
+      <div class="card" style="margin-top: 12px;">
+        <div class="card-title">今日食谱</div>
+        <div id="today-meals-compact">
+          <!-- 动态渲染：简化的食谱列表 -->
+        </div>
+      </div>
+
     </div>
 
-    <!-- 训练模块 -->
-    <div class="card">
-      <div class="card-title">今日训练</div>
-      <div id="today-training">
-        <!-- 动态渲染 -->
-      </div>
+    <!-- 底部操作区 -->
+    <div class="training-complete-area" id="training-actions" style="opacity: 0; pointer-events: none; transition: opacity 0.5s;">
+      <button class="btn-skip" onclick="skipToday()">跳过今天</button>
+      <button class="btn-complete" id="btn-complete" onclick="completeTraining()">完成训练 ✓</button>
     </div>
 
-    <!-- 补剂提醒 -->
-    <div class="card">
-      <div class="card-title">补剂提醒</div>
-      <div class="supplement-list" id="today-supplements">
-        <!-- 动态渲染 -->
+    <!-- 视频播放器（全屏遮罩） -->
+    <div class="video-player-container" id="video-player">
+      <div class="video-player-header">
+        <span id="video-title">动作教学</span>
+        <button class="video-player-close" onclick="closeVideo()">✕</button>
       </div>
+      <iframe class="video-player-iframe" id="video-iframe" src="" allowfullscreen></iframe>
     </div>
 
-    <!-- 打卡区 — 英雄卡片，唯一的neo-brutal元素（Jony情感触点）-->
-    <div class="card-hero checkin-area">
-      <div class="streak-text" id="streak-text">连续打卡 0 天</div>
-      <div class="checkin-buttons">
-        <button class="btn-check" id="btn-training" onclick="toggleCheckin('training')">
-          <span>训练</span>
-          <span class="check-icon">✓</span>
-        </button>
-        <button class="btn-check" id="btn-diet" onclick="toggleCheckin('diet')">
-          <span>饮食</span>
-          <span class="check-icon">✓</span>
-        </button>
-      </div>
-    </div>
   </div>
 
-  <!-- 动作 -->
-  <div id="page-exercises" class="page">
-    <div class="page-title">动作库</div>
-    
-    <!-- 下肢+臀 -->
-    <div class="card">
-      <div class="card-title">🦵 下肢 + 臀</div>
-      <div id="exercises-lower">
-        <!-- 动态渲染 -->
+  <!-- 计划 — 周计划视图 -->
+  <div id="page-plan" class="page">
+    <div class="page-title">本周计划</div>
+
+    <!-- 周计划列表 -->
+    <div class="card" style="padding: 0; overflow: hidden;">
+      <div id="week-plan-list">
+        <!-- 动态渲染：周计划 -->
       </div>
     </div>
-    
-    <!-- 上肢+核心 -->
-    <div class="card">
-      <div class="card-title">💪 上肢 + 核心</div>
-      <div id="exercises-upper">
-        <!-- 动态渲染 -->
-      </div>
-    </div>
-    
-    <!-- 全身 -->
-    <div class="card">
-      <div class="card-title">🔥 全身动作</div>
-      <div id="exercises-full">
-        <!-- 动态渲染 -->
-      </div>
+
+    <!-- 今日快速切换 -->
+    <div class="card-surface" style="margin-top: 12px; text-align: center;">
+      <div style="font-size: 12px; color: var(--t3); margin-bottom: 8px;">需要调整今日训练？</div>
+      <button class="btn-switch-training" onclick="showTrainingPickerFromPlan()">切换今日类型</button>
     </div>
   </div>
 
@@ -2094,259 +2344,71 @@
       </div>
     </div>
     
-    <!-- 手掌法速查卡片 -->
-    <div class="card">
-      <div class="card-title">✋ 手掌法速查</div>
-      <div class="hand-guide">
-        <div class="hand-item">
-          <span class="hand-icon">✊</span>
-          <div class="hand-content">
-            <strong>一拳</strong> = 碳水（红薯/糙米/紫薯）
-          </div>
+
+    <!-- 饮食知识库（折叠式） -->
+    <div class="card" style="padding: 0 16px;">
+      <!-- 手掌法 -->
+      <div class="knowledge-section" id="hand-method">
+        <div class="knowledge-header" onclick="toggleKnowledge('hand-method')">
+          <span>✋ 手掌法速查</span>
         </div>
-        <div class="hand-item">
-          <span class="hand-icon">🖐️</span>
-          <div class="hand-content">
-            <strong>手心大小厚度</strong> = 蛋白质（鸡胸/鱼/牛肉）
-          </div>
-        </div>
-        <div class="hand-item">
-          <span class="hand-icon">👍</span>
-          <div class="hand-content">
-            <strong>拇指</strong> = 油脂（烹饪油控制1拇指内）
-          </div>
-        </div>
-        <div class="hand-item">
-          <span class="hand-icon">✌️✊</span>
-          <div class="hand-content">
+        <div class="knowledge-content">
+          <div style="font-size: 13px; line-height: 1.8; color: var(--t2);">
+            <strong>一拳</strong> = 碳水（红薯/糙米/紫薯）<br>
+            <strong>手心大小厚度</strong> = 蛋白质（鸡胸/鱼/牛肉）<br>
+            <strong>拇指</strong> = 油脂（烹饪油控制1拇指内）<br>
             <strong>两拳</strong> = 蔬菜（每餐至少两拳）
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- 运动后简餐速查卡片 -->
-    <div class="card">
-      <div class="card-title">⚡ 运动后简餐速查</div>
-      <div class="quick-meals">
-        <div class="quick-meal">
-          <div class="quick-meal-header">
-            <span class="quick-meal-label">A组合</span>
-            <span class="quick-meal-protein">28g蛋白</span>
-          </div>
-          <div class="quick-meal-food">即食鸡胸1袋 + 水煮蛋1个</div>
-          <div class="quick-meal-kcal">180kcal · 无需烹饪</div>
+
+      <!-- 运动后简餐 -->
+      <div class="knowledge-section" id="post-workout">
+        <div class="knowledge-header" onclick="toggleKnowledge('post-workout')">
+          <span>⚡ 运动后简餐速查</span>
         </div>
-        <div class="quick-meal">
-          <div class="quick-meal-header">
-            <span class="quick-meal-label">B组合</span>
-            <span class="quick-meal-protein">25g蛋白</span>
-          </div>
-          <div class="quick-meal-food">酱牛肉100g</div>
-          <div class="quick-meal-kcal">150kcal · 冰箱拿出来直接吃</div>
-        </div>
-        <div class="quick-meal">
-          <div class="quick-meal-header">
-            <span class="quick-meal-label">C组合</span>
-            <span class="quick-meal-protein">22g蛋白</span>
-          </div>
-          <div class="quick-meal-food">金枪鱼罐头100g（水浸）</div>
-          <div class="quick-meal-kcal">130kcal · 撕开即食</div>
-        </div>
-        <div class="quick-meal">
-          <div class="quick-meal-header">
-            <span class="quick-meal-label">D组合</span>
-            <span class="quick-meal-protein">15g蛋白</span>
-          </div>
-          <div class="quick-meal-food">希腊酸奶200g</div>
-          <div class="quick-meal-kcal">120kcal · 加坚果更饱腹</div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 隐形热量黑洞卡片 -->
-    <div class="card card-warning">
-      <div class="card-title">⚠️ 隐形热量黑洞</div>
-      <div class="calorie-traps">
-        <div class="trap-item">
-          <div class="trap-icon">🫒</div>
-          <div class="trap-content">
-            <strong>食用油</strong>
-            <div class="trap-detail">每10g=90kcal，3勺=+270kcal</div>
-          </div>
-        </div>
-        <div class="trap-item">
-          <div class="trap-icon">🍶</div>
-          <div class="trap-content">
-            <strong>酱料</strong>
-            <div class="trap-detail">蚝油/酱油/沙拉酱，1勺蚝油≈30kcal</div>
-          </div>
-        </div>
-        <div class="trap-item">
-          <div class="trap-icon">🧋</div>
-          <div class="trap-content">
-            <strong>饮料</strong>
-            <div class="trap-detail">奶茶/果汁一杯轻松400kcal</div>
-          </div>
-        </div>
-        <div class="trap-item">
-          <div class="trap-icon">🥜</div>
-          <div class="trap-content">
-            <strong>坚果</strong>
-            <div class="trap-detail">100g腰果=560kcal，很容易吃多</div>
-          </div>
-        </div>
-        <div class="trap-item">
-          <div class="trap-icon">🍌</div>
-          <div class="trap-content">
-            <strong>水果过量</strong>
-            <div class="trap-detail">1根香蕉100kcal，3根就300kcal</div>
+        <div class="knowledge-content">
+          <div style="font-size: 13px; line-height: 1.6; color: var(--t2);">
+            <strong>A组合</strong>：即食鸡胸1袋+水煮蛋1个 · 28g蛋白/180kcal<br>
+            <strong>B组合</strong>：酱牛肉100g · 25g蛋白/150kcal<br>
+            <strong>C组合</strong>：金枪鱼罐头100g（水浸） · 22g蛋白/130kcal<br>
+            <strong>D组合</strong>：希腊酸奶200g · 15g蛋白/120kcal
           </div>
         </div>
       </div>
-    </div>
-    
-    <!-- 每周采购清单卡片 -->
-    <div class="card">
-      <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
-        🛒 每周采购清单
-        <button class="btn-reset" onclick="resetShoppingList()">重置清单</button>
-      </div>
-      <div class="shopping-list">
-        <div class="shopping-category">
-          <div class="category-title">🥩 蛋白质</div>
-          <div class="shopping-items" id="shopping-protein">
-            <!-- 动态渲染 -->
-          </div>
+
+      <!-- 热量陷阱 -->
+      <div class="knowledge-section" id="calorie-traps">
+        <div class="knowledge-header" onclick="toggleKnowledge('calorie-traps')">
+          <span>⚠️ 隐形热量黑洞</span>
         </div>
-        <div class="shopping-category">
-          <div class="category-title">🍠 主食</div>
-          <div class="shopping-items" id="shopping-carbs">
-            <!-- 动态渲染 -->
-          </div>
-        </div>
-        <div class="shopping-category">
-          <div class="category-title">🥬 蔬菜</div>
-          <div class="shopping-items" id="shopping-veggies">
-            <!-- 动态渲染 -->
-          </div>
-        </div>
-        <div class="shopping-category">
-          <div class="category-title">🧂 调料</div>
-          <div class="shopping-items" id="shopping-spices">
-            <!-- 动态渲染 -->
+        <div class="knowledge-content">
+          <div style="font-size: 13px; line-height: 1.8; color: var(--t2);">
+            <strong style="color: var(--red);">食用油</strong>：每10g=90kcal，3勺=+270kcal<br>
+            <strong style="color: var(--red);">酱料</strong>：蚝油/酱油/沙拉酱，1勺蚝油≈30kcal<br>
+            <strong style="color: var(--red);">饮料</strong>：奶茶/果汁一杯轻松400kcal<br>
+            <strong style="color: var(--red);">坚果</strong>：100g腰果=560kcal，很容易吃多<br>
+            <strong style="color: var(--red);">水果过量</strong>：1根香蕉100kcal，3根就300kcal
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 进度 -->
-  <div id="page-progress" class="page">
-    <div class="page-title">进度追踪</div>
-    
-    <!-- 四宫格统计 -->
-    <div class="card">
-      <div class="card-title">📊 数据概览</div>
-      <div class="stats-grid">
-        <div class="stat-item">
-          <div class="stat-number" id="stat-current">70.0</div>
-          <div class="stat-label">当前体重 kg</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" id="stat-lost">0.0</div>
-          <div class="stat-label">已减重 kg</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" id="stat-remaining">16.0</div>
-          <div class="stat-label">距目标 kg</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-number" id="stat-checkins">0</div>
-          <div class="stat-label">打卡天数</div>
-        </div>
-      </div>
+  <!-- 我的 — 打卡日历+补剂信息 -->
+  <div id="page-me" class="page">
+    <div class="page-title">我的</div>
+
+    <!-- 连续打卡 -->
+    <div class="card" style="text-align: center; padding: 24px;">
+      <div style="font-size: 48px; font-weight: 700; color: var(--accent);" id="me-streak">0</div>
+      <div style="font-size: 14px; color: var(--t2); margin-top: 4px;">连续打卡天数</div>
     </div>
-    
-    <!-- 进度条 -->
-    <div class="card">
-      <div class="card-title">🎯 减脂进度</div>
-      <div class="progress-container">
-        <div class="progress-labels">
-          <span class="progress-start">70kg</span>
-          <span class="progress-end">54kg</span>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progress-fill" style="width: 0%;"></div>
-        </div>
-        <div class="progress-percent" id="progress-percent">0%</div>
-      </div>
-    </div>
-    
-    <!-- 阶段目标 -->
-    <div class="card">
-      <div class="card-title">🚩 阶段目标</div>
-      <div class="milestones">
-        <div class="milestone" id="milestone-1">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-weight">65kg</div>
-            <div class="milestone-desc">第一阶段 · 减5kg</div>
-          </div>
-        </div>
-        <div class="milestone" id="milestone-2">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-weight">60kg</div>
-            <div class="milestone-desc">第二阶段 · 再减5kg</div>
-          </div>
-        </div>
-        <div class="milestone" id="milestone-3">
-          <div class="milestone-dot"></div>
-          <div class="milestone-content">
-            <div class="milestone-weight">54kg</div>
-            <div class="milestone-desc">第三阶段 · 最终目标</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 体重记录表单 -->
-    <div class="card">
-      <div class="card-title">📝 记录体重</div>
-      <div class="record-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label>体重 (kg) <span class="required">*</span></label>
-            <input type="number" id="input-weight" step="0.1" placeholder="例如: 68.5" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>腰围 (cm)</label>
-            <input type="number" id="input-waist" step="0.5" placeholder="选填">
-          </div>
-          <div class="form-group">
-            <label>臀围 (cm)</label>
-            <input type="number" id="input-hip" step="0.5" placeholder="选填">
-          </div>
-        </div>
-        <button class="btn-record" onclick="saveWeightRecord()">记录</button>
-      </div>
-    </div>
-    
-    <!-- 历史记录 -->
-    <div class="card">
-      <div class="card-title">📋 历史记录</div>
-      <div class="history-list" id="history-list">
-        <!-- 动态渲染 -->
-      </div>
-    </div>
-    
+
     <!-- 打卡日历 -->
     <div class="card">
-      <div class="card-title">
-        <span>📅 打卡日历</span>
+      <div class="card-title" style="display: flex; justify-content: space-between; align-items: center;">
+        <span>打卡日历</span>
         <span class="calendar-nav">
           <button class="btn-nav" onclick="changeMonth(-1)">←</button>
           <span id="calendar-month">2026年4月</span>
@@ -2356,243 +2418,52 @@
       <div class="calendar-grid" id="calendar-grid">
         <!-- 动态渲染 -->
       </div>
-      <div class="calendar-summary">
+      <div class="calendar-summary" style="margin-top: 12px;">
         <span class="calendar-legend">
           <span class="legend-dot dot-training"></span>训练
           <span class="legend-dot dot-diet"></span>饮食
         </span>
-        <span id="calendar-stats">本月打卡 0 天 · 连续 0 天</span>
+        <span id="calendar-stats">本月打卡 0 天</span>
       </div>
     </div>
-  </div>
 
-  <!-- 更多 -->
-  <div id="page-more" class="page">
-    <div class="page-title">更多</div>
-    
-    <!-- 补剂方案 -->
+    <!-- 补剂信息（折叠） -->
     <div class="card">
-      <div class="card-title">💊 补剂方案（无咖啡因版）</div>
-      
-      <div class="supplement-groups">
-        <div class="sup-group must">
-          <div class="sup-group-title">必买</div>
-          <div class="sup-item">
-            <strong>一水肌酸 5g</strong>
-            <span class="sup-note">随餐服用</span>
-          </div>
-          <div class="sup-item">
-            <strong>复合维生素 1粒</strong>
-            <span class="sup-note">早上第一餐</span>
+      <div class="knowledge-section" id="supplement-section">
+        <div class="knowledge-header" onclick="toggleKnowledge('supplement-section')">
+          <span>补剂方案参考</span>
+        </div>
+        <div class="knowledge-content">
+          <div style="font-size: 13px; line-height: 1.8; color: var(--t2);">
+            <strong style="color: var(--t1);">必买：</strong>一水肌酸 5g随餐、复合维生素 1粒早上<br>
+            <strong style="color: var(--t1);">推荐：</strong>鱼油 Omega-3 2g、甘氨酸镁 300mg睡前、VD3 2000IU早上<br>
+            <strong style="color: var(--t1);">可选：</strong>左旋肉碱 2000mg运动前、绿茶提取物 EGCG 400mg早上<br>
+            <strong style="color: var(--red);">不要买：</strong>CLA、酵素、暴汗服、减肥茶、代餐奶昔
           </div>
         </div>
-        
-        <div class="sup-group recommend">
-          <div class="sup-group-title">推荐</div>
-          <div class="sup-item">
-            <strong>鱼油 Omega-3 2g</strong>
-            <span class="sup-note">第一餐随餐</span>
-          </div>
-          <div class="sup-item">
-            <strong>甘氨酸镁 300mg</strong>
-            <span class="sup-note">睡前服用，助眠</span>
-          </div>
-          <div class="sup-item">
-            <strong>维生素D3 2000IU</strong>
-            <span class="sup-note">早上服用（先查血）</span>
-          </div>
-        </div>
-        
-        <div class="sup-group optional">
-          <div class="sup-group-title">可选</div>
-          <div class="sup-item">
-            <strong>左旋肉碱 2000mg</strong>
-            <span class="sup-note">运动前（效果有限）</span>
-          </div>
-          <div class="sup-item">
-            <strong>绿茶提取物 EGCG 400mg</strong>
-            <span class="sup-note">早上服用，3个月见效</span>
-          </div>
-        </div>
-        
-        <div class="sup-group avoid">
-          <div class="sup-group-title">不要买</div>
-          <div class="sup-item avoid-item">
-            <strong>CLA</strong>
-            <span class="sup-why">→ 循证研究显示减脂效果微弱</span>
-          </div>
-          <div class="sup-item avoid-item">
-            <strong>酵素</strong>
-            <span class="sup-why">→ 就是消化酶，和减脂无关</span>
-          </div>
-          <div class="sup-item avoid-item">
-            <strong>暴汗服/暴汗霜</strong>
-            <span class="sup-why">→ 只是脱水，洗完澡就反弹</span>
-          </div>
-          <div class="sup-item avoid-item">
-            <strong>减肥茶</strong>
-            <span class="sup-why">→ 多数是泻药，伤肠胃</span>
-          </div>
-          <div class="sup-item avoid-item">
-            <strong>代餐奶昔</strong>
-            <span class="sup-why">→ 不如吃真食物，难坚持</span>
-          </div>
+        <div class="calendar-summary" style="margin-top: 12px;">
+          <span class="calendar-legend">
+            <span class="legend-dot dot-training"></span>训练
+            <span class="legend-dot dot-diet"></span>饮食
+          </span>
+          <span id="calendar-stats">本月打卡 0 天</span>
         </div>
       </div>
-      
-      <div class="supplement-schedule">
-        <div class="schedule-title">⏰ 每日补剂时间表</div>
-        <div class="schedule-timeline">
-          <div class="schedule-item">
-            <span class="schedule-time">8:30 随餐</span>
-            <span class="schedule-pills">复合维生素 + 鱼油 + VD3</span>
+
+      <!-- 补剂信息（折叠） -->
+      <div class="card">
+        <div class="knowledge-section" id="supplement-section">
+          <div class="knowledge-header" onclick="toggleKnowledge('supplement-section')">
+            <span>补剂方案参考</span>
           </div>
-          <div class="schedule-item">
-            <span class="schedule-time">午/晚餐随餐</span>
-            <span class="schedule-pills">肌酸 5g</span>
+          <div class="knowledge-content">
+            <div style="font-size: 13px; line-height: 1.8; color: var(--t2);">
+              <strong style="color: var(--t1);">必买：</strong>一水肌酸 5g随餐、复合维生素 1粒早上<br>
+              <strong style="color: var(--t1);">推荐：</strong>鱼油 Omega-3 2g、甘氨酸镁 300mg睡前、VD3 2000IU早上<br>
+              <strong style="color: var(--t1);">可选：</strong>左旋肉碱 2000mg运动前、绿茶提取物 EGCG 400mg早上<br>
+              <strong style="color: var(--red);">不要买：</strong>CLA、酵素、暴汗服、减肥茶、代餐奶昔
+            </div>
           </div>
-          <div class="schedule-item">
-            <span class="schedule-time">睡前</span>
-            <span class="schedule-pills">甘氨酸镁 300mg</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 器材购买建议 -->
-    <div class="card">
-      <div class="card-title">🏋️ 器材清单</div>
-      <div class="equipment-list">
-        <div class="equipment-item owned">
-          <span class="eq-icon">✓</span>
-          <div class="eq-content">
-            <strong>阻尼单车</strong>
-            <span>Zone 2有氧主力</span>
-          </div>
-        </div>
-        <div class="equipment-item owned">
-          <span class="eq-icon">✓</span>
-          <div class="eq-content">
-            <strong>壶铃/杠铃套装（含哑铃片）</strong>
-            <span>力量训练必备</span>
-          </div>
-        </div>
-        <div class="equipment-item owned">
-          <span class="eq-icon">✓</span>
-          <div class="eq-content">
-            <strong>瑜伽垫</strong>
-            <span>地板动作保护</span>
-          </div>
-        </div>
-        <div class="equipment-item owned">
-          <span class="eq-icon">✓</span>
-          <div class="eq-content">
-            <strong>沙发</strong>
-            <span>保加利亚分腿蹲支撑</span>
-          </div>
-        </div>
-        <div class="equipment-item optional">
-          <span class="eq-icon">+</span>
-          <div class="eq-content">
-            <strong>弹力带套装</strong>
-            <span>臀部激活热身（约30元）</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 核心规则 -->
-    <div class="card">
-      <div class="card-title">📋 核心规则</div>
-      <div class="core-rules">
-        <div class="rule-item">
-          <span class="rule-icon">🥩</span>
-          <div class="rule-content">
-            <strong>蛋白质≥110g/天</strong>
-            <span>不够就加餐，不能少</span>
-          </div>
-        </div>
-        <div class="rule-item">
-          <span class="rule-icon">🚫</span>
-          <div class="rule-content">
-            <strong>每周加入1次SIT冲刺间歇</strong>
-            <span>周二做真正的全力冲刺+完全恢复；单车/跑步均可；Zone 2降为力量日收尾10min积极恢复</span>
-          </div>
-        </div>
-        <div class="rule-item">
-          <span class="rule-icon">🔄</span>
-          <div class="rule-content">
-            <strong>每8-12周一次diet break</strong>
-            <span>连续2周吃维持热量，恢复代谢</span>
-          </div>
-        </div>
-        <div class="rule-item">
-          <span class="rule-icon">⚖️</span>
-          <div class="rule-content">
-            <strong>每两周称一次体重</strong>
-            <span>早上空腹排便后称最准</span>
-          </div>
-        </div>
-        <div class="rule-item">
-          <span class="rule-icon">📅</span>
-          <div class="rule-content">
-            <strong>经期后3天称最准</strong>
-            <span>经期前后体重波动1-3kg属正常，不必焦虑</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <!-- 靠谱博主 -->
-    <div class="card">
-      <div class="card-title">📺 靠谱博主推荐</div>
-      <div class="bloggers">
-        <a href="https://youtube.com/@JeffNippard" target="_blank" class="blogger-item">
-          <div class="blogger-name">Jeff Nippard</div>
-          <div class="blogger-platform">YouTube</div>
-          <div class="blogger-desc">循证训练，最权威的科学健身</div>
-        </a>
-        <a href="https://youtube.com/@MikeIsraetel" target="_blank" class="blogger-item">
-          <div class="blogger-name">Dr. Mike Israetel</div>
-          <div class="blogger-platform">YouTube</div>
-          <div class="blogger-desc">科学减脂/增肌，RP创始人</div>
-        </a>
-        <a href="https://youtube.com/@NatachaOceane" target="_blank" class="blogger-item">
-          <div class="blogger-name">Natacha Oceane</div>
-          <div class="blogger-platform">YouTube</div>
-          <div class="blogger-desc">女性视角，审美在线，有料又好看</div>
-        </a>
-        <a href="https://space.bilibili.com/48546741" target="_blank" class="blogger-item">
-          <div class="blogger-name">灵魂健身杨老师</div>
-          <div class="blogger-platform">B站</div>
-          <div class="blogger-desc">中文最好的循证健身博主</div>
-        </a>
-      </div>
-    </div>
-    
-    <!-- 避雷清单 -->
-    <div class="card card-danger">
-      <div class="card-title">🚫 避雷清单</div>
-      <div class="avoid-list">
-        <div class="avoid-item-danger">
-          <strong>局部减脂</strong>
-          <span>腹部/大腿单独瘦 — 生理上不存在</span>
-        </div>
-        <div class="avoid-item-danger">
-          <strong>酵素减肥</strong>
-          <span>就是消化酶，和减脂完全无关</span>
-        </div>
-        <div class="avoid-item-danger">
-          <strong>暴汗服</strong>
-          <span>只是脱水，洗完澡体重就反弹</span>
-        </div>
-        <div class="avoid-item-danger">
-          <strong>无资质私教推的动作</strong>
-          <span>容易受伤，不要盲目跟练</span>
-        </div>
-        <div class="avoid-item-danger">
-          <strong>任何承诺「一个月瘦10斤」的产品</strong>
-          <span>掉的大部分是水和肌肉，会反弹</span>
         </div>
       </div>
     </div>
@@ -2601,24 +2472,20 @@
   <!-- ========== 底部 Tab Bar ========== -->
   <div class="tab-bar">
     <div class="tab-item active" data-page="today">
-      <div class="tab-icon">📋</div>
-      <div class="tab-label">今天</div>
+      <div class="tab-icon">●</div>
+      <div class="tab-label">今日</div>
     </div>
-    <div class="tab-item" data-page="exercises">
-      <div class="tab-icon">💪</div>
-      <div class="tab-label">动作</div>
+    <div class="tab-item" data-page="plan">
+      <div class="tab-icon">◎</div>
+      <div class="tab-label">计划</div>
     </div>
     <div class="tab-item" data-page="diet">
-      <div class="tab-icon">🥗</div>
+      <div class="tab-icon">○</div>
       <div class="tab-label">饮食</div>
     </div>
-    <div class="tab-item" data-page="progress">
-      <div class="tab-icon">📊</div>
-      <div class="tab-label">进度</div>
-    </div>
-    <div class="tab-item" data-page="more">
-      <div class="tab-icon">⚙️</div>
-      <div class="tab-label">更多</div>
+    <div class="tab-item" data-page="me">
+      <div class="tab-icon">◐</div>
+      <div class="tab-label">我的</div>
     </div>
   </div>
 
@@ -3407,14 +3274,220 @@
       document.getElementById('streak-text').textContent = `连续打卡 ${streak} 天`;
     }
 
-    // 初始化「今天」页面
+    // 初始化「今天」页面 — 新双层结构
     function initTodayPage() {
-      renderTodayHeader();
-      renderTodayMeals();
-      renderTodayTraining();
-      renderTodaySupplements();
-      updateCheckinButtons();
+      renderWelcomeState();
+      renderTrainingState();
       updateStreak();
+
+      // 检查今天是否已打卡，已打卡直接显示训练态
+      const todayKey = getTodayKey();
+      const checkins = getCheckins();
+      if (checkins[todayKey]?.training) {
+        enterTrainingMode();
+        document.getElementById('btn-complete').classList.add('checked');
+        document.getElementById('btn-complete').textContent = '已完成 ✓';
+      }
+    }
+
+    // 渲染欢迎态（吉祥物+今日主题）
+    function renderWelcomeState() {
+      const plan = getTodayPlan();
+      const dayTypeMap = {
+        strength: { text: '力量日', class: 'day-strength' },
+        cardio: { text: '有氧日', class: 'day-cardio' },
+        dance: { text: '街舞日', class: 'day-dance' },
+        rest: { text: '休息日', class: 'day-rest' }
+      };
+      const dayInfo = dayTypeMap[plan.type] || dayTypeMap.strength;
+
+      // 设置主题色
+      const welcomeEl = document.getElementById('today-welcome');
+      welcomeEl.className = 'today-welcome ' + dayInfo.class;
+
+      // 设置文字
+      document.getElementById('welcome-daytype').textContent = dayInfo.text;
+
+      // 更新日期显示（两处）
+      const now = new Date();
+      const dateStr = `${now.getMonth() + 1}月${now.getDate()}日`;
+      const weekDay = ['周日','周一','周二','周三','周四','周五','周六'][now.getDay()];
+      document.getElementById('today-date-inner').textContent = `${dateStr} ${weekDay}`;
+    }
+
+    // 渲染训练态内容
+    function renderTrainingState() {
+      const plan = getTodayPlan();
+
+      // 更新标签
+      const labelMap = { strength: '力量', cardio: '有氧', dance: '街舞', rest: '休息' };
+      document.getElementById('today-label').textContent = labelMap[plan.type] || '训练';
+
+      // 渲染训练列表
+      renderTrainingList(plan);
+
+      // 渲染简化的食谱
+      renderCompactMeals(plan);
+    }
+
+    // 渲染训练列表（带视频按钮）
+    function renderTrainingList(plan) {
+      const container = document.getElementById('today-training-list');
+
+      // 休息日
+      if (plan.type === 'rest') {
+        container.innerHTML = '<div style="text-align:center;padding:40px 0;color:var(--t3);">今天完全休息 💤<br><small>好好恢复，明天继续</small></div>';
+        document.getElementById('finisher-card').style.display = 'none';
+        return;
+      }
+
+      // 力量日
+      if (plan.type === 'strength') {
+        const exercisesHtml = plan.training.exercises.map((exId, index) => {
+          const ex = exercises[exId];
+          return `
+            <div class="training-item" style="padding:12px 0;border-bottom:1px solid var(--line);">
+              <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="flex:1;">
+                  <div style="font-size:15px;font-weight:500;color:var(--t1);">${index + 1}. ${ex.name}</div>
+                  <div style="font-size:12px;color:var(--t3);margin-top:2px;">${ex.sets} ${ex.reps} · ${ex.weight}</div>
+                </div>
+                ${ex.video ? `<button class="video-btn" onclick="playVideo('${exId}', '${ex.name}')" title="观看教学">▶</button>` : ''}
+              </div>
+            </div>
+          `;
+        }).join('');
+
+        container.innerHTML = exercisesHtml;
+
+        // 显示收尾动作
+        const finisherCard = document.getElementById('finisher-card');
+        finisherCard.style.display = 'block';
+        document.getElementById('finisher-text').textContent = plan.training.finisher;
+        return;
+      }
+
+      // 有氧日
+      if (plan.type === 'cardio') {
+        container.innerHTML = `
+          <div style="padding:16px 0;">
+            <div style="font-size:16px;font-weight:600;margin-bottom:8px;">⚡ SIT 冲刺间歇训练</div>
+            <div style="font-size:13px;color:var(--t2);margin-bottom:12px;">总时长约30-35min · 户外跑步或加阻力单车</div>
+            <div style="font-size:13px;line-height:1.6;color:var(--t1);">
+              <strong>核心原则：</strong>10-30秒绝对全力 → 2-4分钟完全恢复<br><br>
+              <strong>户外版：</strong>全力跑20-30秒 → 慢走2-3分钟恢复 → 重复4-6组<br>
+              <strong>单车版：</strong>大阻力全力蹬20秒 → 低阻力慢蹬2分钟 → 重复4-6组<br><br>
+              <span style="color:var(--accent);font-size:12px;">✓ 每组冲刺后腿酸喘不上气 = 正确</span>
+            </div>
+          </div>
+        `;
+        document.getElementById('finisher-card').style.display = 'none';
+        return;
+      }
+
+      // 街舞日
+      container.innerHTML = `
+        <div style="padding:16px 0;">
+          <div style="font-size:16px;font-weight:600;margin-bottom:8px;">💃 街舞训练</div>
+          <div style="font-size:14px;color:var(--t1);line-height:1.6;">${plan.training.finisher}</div>
+        </div>
+      `;
+      document.getElementById('finisher-card').style.display = 'none';
+    }
+
+    // 渲染简化版食谱
+    function renderCompactMeals(plan) {
+      const container = document.getElementById('today-meals-compact');
+      const mealsData = meals[plan.type] || meals.strength;
+
+      const mealsHtml = mealsData.map(meal => `
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;">
+          <div>
+            <div style="font-weight:500;color:var(--t1);">${meal.title}</div>
+            <div style="color:var(--t2);margin-top:2px;font-size:12px;">${meal.food}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-weight:600;color:var(--t1);">${meal.kcal}kcal</div>
+            <div style="font-size:11px;color:var(--t3);">${meal.protein}</div>
+          </div>
+        </div>
+      `).join('');
+
+      container.innerHTML = mealsHtml;
+    }
+
+    // 进入训练模式（点击欢迎态后）
+    function enterTrainingMode() {
+      // 欢迎态渐隐
+      document.getElementById('today-welcome').classList.add('fade-out');
+
+      // 训练态渐显
+      const trainingContainer = document.getElementById('today-training-container');
+      trainingContainer.classList.add('visible');
+
+      // 底部按钮显示
+      const actions = document.getElementById('training-actions');
+      actions.style.opacity = '1';
+      actions.style.pointerEvents = 'auto';
+    }
+
+    // 播放视频
+    function playVideo(exId, exName) {
+      const ex = exercises[exId];
+      if (!ex?.video) return;
+
+      // 提取B站BV号
+      const bvMatch = ex.video.match(/BV[\w]+/);
+      if (!bvMatch) return;
+
+      const bvid = bvMatch[0];
+      document.getElementById('video-title').textContent = exName + ' · 教学视频';
+      document.getElementById('video-iframe').src = `https://player.bilibili.com/player.html?bvid=${bvid}&autoplay=1`;
+      document.getElementById('video-player').classList.add('visible');
+    }
+
+    // 关闭视频
+    function closeVideo() {
+      document.getElementById('video-player').classList.remove('visible');
+      document.getElementById('video-iframe').src = '';
+    }
+
+    // 跳过今天
+    function skipToday() {
+      if (!confirm('确定标记为「跳过」？今天将不计入打卡')) return;
+
+      const todayKey = getTodayKey();
+      const checkins = getCheckins();
+      checkins[todayKey] = { training: false, diet: false, skipped: true };
+      saveCheckins(checkins);
+
+      document.getElementById('btn-skip').textContent = '已跳过';
+      document.getElementById('btn-skip').disabled = true;
+    }
+
+    // 完成训练
+    function completeTraining() {
+      const btn = document.getElementById('btn-complete');
+      if (btn.classList.contains('checked')) return; // 已经打卡过
+
+      const todayKey = getTodayKey();
+      const checkins = getCheckins();
+      if (!checkins[todayKey]) {
+        checkins[todayKey] = { training: false, diet: false };
+      }
+      checkins[todayKey].training = true;
+      saveCheckins(checkins);
+
+      // 更新按钮状态
+      btn.classList.add('checked');
+      btn.textContent = '已完成 ✓';
+
+      // 更新连续天数
+      updateStreak();
+
+      // 简单庆祝动画（可选）
+      btn.style.transform = 'scale(1.1)';
+      setTimeout(() => btn.style.transform = 'scale(1)', 200);
     }
 
     // ========== 动作库页面渲染 ==========
@@ -3855,6 +3928,72 @@
       renderCalendar();
     }
 
+    // ========== 计划页面 ==========
+    function initPlanPage() {
+      renderWeekPlan();
+    }
+
+    // 渲染周计划
+    function renderWeekPlan() {
+      const container = document.getElementById('week-plan-list');
+      const dayNames = ['周一', '周二', '周三', '周四', '周五', '周六', '周日'];
+      const typeMap = {
+        strength: { label: '力量', color: '#e8397d', icon: '●' },
+        cardio: { label: '有氧', color: '#2563eb', icon: '●' },
+        dance: { label: '街舞', color: '#7c3aed', icon: '●' },
+        rest: { label: '休息', color: '#9ca3af', icon: '○' }
+      };
+
+      const today = new Date().getDay(); // 0=周日, 1=周一...
+      const todayKey = today === 0 ? 7 : today; // 转换为1-7
+
+      const html = dayNames.map((dayName, index) => {
+        const dayNum = index + 1;
+        const plan = weekPlan[dayNum];
+        const typeInfo = typeMap[plan.type];
+        const isToday = dayNum === todayKey;
+
+        return `
+          <div style="display:flex;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);${isToday ? 'background:rgba(232,57,125,0.05);' : ''}">
+            <div style="width:40px;font-size:13px;color:${isToday ? 'var(--accent)' : 'var(--t3)'};font-weight:${isToday ? '600' : '400'};">${dayName}</div>
+            <div style="flex:1;display:flex;align-items:center;gap:8px;">
+              <span style="color:${typeInfo.color};font-size:16px;">${typeInfo.icon}</span>
+              <span style="font-size:15px;color:var(--t1);font-weight:${isToday ? '500' : '400'};">${typeInfo.label}</span>
+              ${isToday ? '<span style="font-size:11px;color:var(--accent);background:var(--primary-light);padding:2px 6px;border-radius:4px;">今天</span>' : ''}
+            </div>
+            <div style="font-size:12px;color:var(--t3);text-align:right;max-width:120px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">
+              ${plan.training?.finisher || '完全休息'}
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      container.innerHTML = html;
+    }
+
+    // 从计划页打开训练选择器
+    function showTrainingPickerFromPlan() {
+      showTrainingPicker();
+    }
+
+    // ========== 我的页面 ==========
+    function initMePage() {
+      // 更新连续打卡显示
+      const streak = calculateStreak();
+      document.getElementById('me-streak').textContent = streak;
+
+      // 渲染日历
+      renderCalendar();
+    }
+
+    // 折叠知识库切换
+    function toggleKnowledge(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.classList.toggle('expanded');
+      }
+    }
+
     // ========== Tab 切换逻辑 ==========
     const tabItems = document.querySelectorAll('.tab-item');
     const pages = document.querySelectorAll('.page');
@@ -3862,11 +4001,11 @@
     tabItems.forEach(tab => {
       tab.addEventListener('click', () => {
         const targetPage = tab.dataset.page;
-        
+
         // 更新 tab 状态
         tabItems.forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
-        
+
         // 更新页面显示
         pages.forEach(page => {
           page.classList.remove('active');
@@ -3874,27 +4013,27 @@
             page.classList.add('active');
           }
         });
-        
-        // 切换到动作页面时初始化
-        if (targetPage === 'exercises') {
-          initExercisesPage();
+
+        // 切换到计划页面时初始化
+        if (targetPage === 'plan') {
+          initPlanPage();
         }
         // 切换到饮食页面时初始化
         if (targetPage === 'diet') {
           initDietPage();
         }
-        // 切换到进度页面时初始化
-        if (targetPage === 'progress') {
-          initProgressPage();
+        // 切换到我的页面时初始化
+        if (targetPage === 'me') {
+          initMePage();
         }
       });
     });
 
     // 初始化
     initTodayPage();
-    initExercisesPage();
+    initPlanPage();
     initDietPage();
-    initProgressPage();
+    initMePage();
   </script>
   </div><!-- /app-content -->
 
