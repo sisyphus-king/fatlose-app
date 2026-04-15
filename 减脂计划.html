@@ -6,51 +6,68 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="减脂计划">
-  <meta name="theme-color" content="#fff5fb">
+  <meta name="theme-color" content="#f9f9f9">
   <title>减脂计划</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,700;0,800;0,900;1,900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     /* ========== CSS 变量 ========== */
     :root {
-      /* 颜色 - Kawaii Fitness */
-      --bg: #fff5fb;
+      /* 颜色系统 — 设计小组决策版 */
+      /* 背景：近白，大片留白让内容呼吸 */
+      --bg: #f9f9f9;
       --card: #ffffff;
-      --border: #ffd6eb;
-      --primary: #ff4fa3;
-      --primary-light: #ffe4f3;
-      --purple: #c084fc;
-      --purple-light: #f5e8ff;
-      --yellow: #fbbf24;
-      --yellow-light: #fef9c3;
-      --blue: #60a5fa;
+
+      /* Accent：只用于「完成/active」时刻，其他地方不出现 */
+      --accent: #ff4fa3;
+      --accent-light: #fff0f7;
+      --accent-dim: rgba(255,79,163,0.12);
+
+      /* 层级色（三层卡片系统） */
+      --border: rgba(0,0,0,0.07);
+      --border-strong: rgba(0,0,0,0.15);
+      --surface-2: #f4f4f4;  /* 信息卡片背景 */
+
+      /* 保留功能色 */
+      --purple: #8b5cf6;
+      --purple-light: #ede9fe;
+      --yellow: #f59e0b;
+      --yellow-light: #fef3c7;
+      --blue: #3b82f6;
       --blue-light: #dbeafe;
-      --success: #34d399;
+      --success: #10b981;
       --success-light: #d1fae5;
       --warning: #f59e0b;
       --danger: #ef4444;
-      --pink: #ff4fa3;
-      --pink-light: #ffe4f3;
-      --text-primary: #3d1a6e;
-      --text-secondary: #9b7aab;
-      --text-weak: #c4a8d4;
-      --gray: #c4a8d4;
-      --gray-light: #f5e8ff;
+
+      /* 向下兼容旧变量名 */
+      --primary: var(--accent);
+      --primary-light: var(--accent-light);
+      --pink: var(--accent);
+      --pink-light: var(--accent-light);
+      --gray: #9ca3af;
+      --gray-light: #f3f4f6;
+
+      /* 文字：接近黑，高可读性 */
+      --text-primary: #111111;
+      --text-secondary: #555555;
+      --text-weak: #9ca3af;
 
       /* 圆角 */
-      --radius-card: 20px;
-      --radius-inner: 14px;
+      --radius-card: 16px;
+      --radius-inner: 12px;
       --radius-pill: 50px;
       --radius-btn: 50px;
 
-      /* 阴影 */
-      --shadow-card: 0 4px 16px rgba(255,79,163,0.08);
-      --shadow-elevated: 0 8px 24px rgba(255,79,163,0.15);
+      /* 三层阴影系统 */
+      --shadow-hero: 4px 4px 0px var(--accent);  /* 英雄卡片 neo-brutal */
+      --shadow-card: 0 2px 8px rgba(0,0,0,0.06); /* 内容卡片 */
+      --shadow-elevated: 0 8px 24px rgba(0,0,0,0.10);
 
       /* 尺寸 */
       --tab-bar-height: 64px;
       --safe-bottom: env(safe-area-inset-bottom, 0px);
-      --header-height: 80px;
+      --header-height: 72px;
     }
 
     /* ========== 基础重置 ========== */
@@ -63,7 +80,7 @@
 
     html, body {
       height: 100%;
-      font-family: 'Nunito', -apple-system, 'PingFang SC', sans-serif;
+      font-family: 'Inter', -apple-system, 'PingFang SC', sans-serif;
       background: var(--bg);
       color: var(--text-primary);
       overflow-x: hidden;
@@ -86,28 +103,50 @@
     }
 
     .page-title {
-      font-size: 26px;
+      font-size: 22px;
       font-weight: 800;
       margin-bottom: 20px;
-      color: var(--primary);
+      color: var(--text-primary);
       letter-spacing: -0.3px;
+      font-family: 'Nunito', sans-serif;
     }
 
-    /* ========== 卡片组件 ========== */
+    /* ========== 卡片组件 — 三层层级系统 ========== */
+    /* 层级2：内容卡片（默认） */
     .card {
       background: var(--card);
       border-radius: var(--radius-card);
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
       box-shadow: var(--shadow-card);
       padding: 16px;
       margin-bottom: 12px;
     }
 
+    /* 层级1：英雄卡片，neo-brutal，只用于首屏重要情感触点 */
+    .card-hero {
+      background: var(--card);
+      border-radius: var(--radius-card);
+      border: 2px solid #111111;
+      box-shadow: var(--shadow-hero);
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+
+    /* 层级3：信息卡片，无border，浅色背景 */
+    .card-surface {
+      background: var(--surface-2);
+      border-radius: var(--radius-inner);
+      padding: 14px;
+      margin-bottom: 10px;
+    }
+
     .card-title {
-      font-size: 15px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 600;
       margin-bottom: 12px;
-      color: var(--text-primary);
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     /* ========== 时间轴组件 ========== */
@@ -229,16 +268,20 @@
       gap: 8px;
     }
 
-    /* ========== 展开/收起组件 ========== */
+    /* ========== 展开/收起组件 — 修复max-height抖动（Rauno方案）========== */
     .expandable {
-      max-height: 0;
-      overflow: hidden;
+      display: grid;
+      grid-template-rows: 0fr;
       opacity: 0;
-      transition: max-height 0.3s ease, opacity 0.2s ease;
+      transition: grid-template-rows 0.28s ease, opacity 0.2s ease;
+    }
+
+    .expandable > * {
+      overflow: hidden;
     }
 
     .expandable.expanded {
-      max-height: 500px;
+      grid-template-rows: 1fr;
       opacity: 1;
     }
 
@@ -280,33 +323,42 @@
 
     /* ========== 按钮组件 ========== */
     .btn-check {
-      padding: 12px 24px;
+      padding: 14px 24px;
       border-radius: var(--radius-btn);
-      border: 2px solid var(--border);
+      border: 2px solid var(--border-strong);
       background: white;
       font-size: 15px;
-      font-weight: 700;
+      font-weight: 600;
       color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
       min-width: 120px;
-      font-family: 'Nunito', sans-serif;
+      font-family: 'Inter', sans-serif;
     }
 
+    .btn-check:active {
+      transform: scale(0.97);
+    }
+
+    /* 打卡成功 — Jony的情感触点 + Rauno的bounce */
     .btn-check.checked {
-      background: linear-gradient(135deg, var(--primary), var(--purple));
-      border-color: transparent;
+      background: var(--accent);
+      border-color: var(--accent);
       color: white;
-      animation: checkBounce 0.3s ease;
+      box-shadow: 0 4px 16px rgba(255,79,163,0.35);
+      animation: checkBounce 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97);
     }
 
     @keyframes checkBounce {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+      0%   { transform: scale(1); }
+      25%  { transform: scale(1.10); }
+      50%  { transform: scale(0.95); }
+      75%  { transform: scale(1.04); }
+      100% { transform: scale(1); }
     }
 
     .btn-video {
@@ -359,8 +411,9 @@
     .stat-value {
       font-size: 24px;
       font-weight: 700;
-      color: var(--primary);
+      color: var(--text-primary);
       margin-bottom: 4px;
+      font-family: 'Inter', sans-serif;
     }
 
     .stat-label {
@@ -376,13 +429,15 @@
       right: 0;
       height: calc(var(--tab-bar-height) + var(--safe-bottom));
       padding-bottom: var(--safe-bottom);
-      background: white;
-      border-top: 2px solid var(--border);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-top: 1px solid var(--border);
       display: flex;
       justify-content: space-around;
       align-items: center;
       z-index: 1000;
-      box-shadow: 0 -4px 20px rgba(255,79,163,0.08);
+      box-shadow: 0 -1px 0 rgba(0,0,0,0.05);
     }
 
     .tab-item {
@@ -395,33 +450,39 @@
       cursor: pointer;
       position: relative;
       color: var(--text-weak);
-      transition: color 0.2s ease;
+      transition: color 0.18s ease;
     }
 
     .tab-item.active {
-      color: var(--primary);
+      color: var(--accent);
+    }
+
+    .tab-item.active .tab-icon {
+      transform: scale(1.08);
     }
 
     .tab-item.active::after {
       content: '';
       position: absolute;
-      top: 6px;
+      bottom: 6px;
       left: 50%;
       transform: translateX(-50%);
-      width: 28px;
+      width: 20px;
       height: 3px;
-      background: linear-gradient(90deg, var(--primary), var(--purple));
+      background: var(--accent);
       border-radius: 3px;
     }
 
     .tab-icon {
       font-size: 22px;
       margin-bottom: 2px;
+      transition: transform 0.18s ease;
     }
 
     .tab-label {
-      font-size: 11px;
-      font-weight: 700;
+      font-size: 10px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
     }
 
     /* ========== 今日页特殊样式 ========== */
@@ -501,10 +562,15 @@
     /* ========== 训练动作列表 ========== */
     .training-item {
       background: white;
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 14px;
       margin-bottom: 8px;
+      transition: border-color 0.15s ease;
+    }
+
+    .training-item:has(.training-detail.expanded) {
+      border-color: var(--border-strong);
     }
 
     .training-header {
@@ -536,14 +602,18 @@
     }
 
     .training-detail {
-      max-height: 0;
-      overflow: hidden;
+      display: grid;
+      grid-template-rows: 0fr;
       opacity: 0;
-      transition: max-height 0.3s ease, opacity 0.2s ease;
+      transition: grid-template-rows 0.28s ease, opacity 0.2s ease;
+    }
+
+    .training-detail > * {
+      overflow: hidden;
     }
 
     .training-detail.expanded {
-      max-height: 400px;
+      grid-template-rows: 1fr;
       opacity: 1;
       margin-top: 12px;
       padding-top: 12px;
@@ -568,14 +638,18 @@
     }
 
     .video-container {
-      max-height: 0;
-      overflow: hidden;
+      display: grid;
+      grid-template-rows: 0fr;
       opacity: 0;
-      transition: max-height 0.3s ease, opacity 0.2s ease;
+      transition: grid-template-rows 0.28s ease, opacity 0.2s ease;
+    }
+
+    .video-container > * {
+      overflow: hidden;
     }
 
     .video-container.expanded {
-      max-height: 300px;
+      grid-template-rows: 1fr;
       opacity: 1;
       margin-top: 12px;
     }
@@ -633,17 +707,16 @@
     /* ========== 动作库样式 ========== */
     .exercise-lib-item {
       background: white;
-      border: 2px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius-inner);
       padding: 14px;
       margin-bottom: 10px;
       cursor: pointer;
-      transition: border-color 0.2s ease, background 0.2s ease;
+      transition: border-color 0.15s ease;
     }
 
-    .exercise-lib-item:hover {
-      border-color: var(--primary);
-      background: var(--primary-light);
+    .exercise-lib-item:active {
+      border-color: var(--accent);
     }
 
     .exercise-lib-header {
@@ -674,14 +747,18 @@
     }
 
     .exercise-lib-detail {
-      max-height: 0;
-      overflow: hidden;
+      display: grid;
+      grid-template-rows: 0fr;
       opacity: 0;
-      transition: max-height 0.3s ease, opacity 0.2s ease, margin-top 0.3s ease;
+      transition: grid-template-rows 0.28s ease, opacity 0.2s ease;
+    }
+
+    .exercise-lib-detail > * {
+      overflow: hidden;
     }
 
     .exercise-lib-detail.expanded {
-      max-height: 600px;
+      grid-template-rows: 1fr;
       opacity: 1;
       margin-top: 14px;
       padding-top: 14px;
@@ -765,8 +842,9 @@
 
     .goal-number {
       font-size: 28px;
-      font-weight: 800;
-      color: var(--primary);
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
     }
 
     .goal-label {
@@ -1005,30 +1083,31 @@
       border-color: var(--primary);
       background: var(--primary-light);
     }
-    .stats-grid .stat-item:nth-child(1) .stat-number { color: var(--primary); }
+    .stats-grid .stat-item:nth-child(1) .stat-number { color: var(--accent); }
 
     .stats-grid .stat-item:nth-child(2) {
-      border-color: var(--purple);
-      background: var(--purple-light);
+      border-color: rgba(0,0,0,0.07);
+      background: white;
     }
     .stats-grid .stat-item:nth-child(2) .stat-number { color: var(--purple); }
 
     .stats-grid .stat-item:nth-child(3) {
-      border-color: var(--blue);
-      background: var(--blue-light);
+      border-color: rgba(0,0,0,0.07);
+      background: white;
     }
     .stats-grid .stat-item:nth-child(3) .stat-number { color: var(--blue); }
 
     .stats-grid .stat-item:nth-child(4) {
-      border-color: var(--yellow);
-      background: var(--yellow-light);
+      border-color: rgba(0,0,0,0.07);
+      background: white;
     }
     .stats-grid .stat-item:nth-child(4) .stat-number { color: var(--yellow); }
 
     .stat-number {
       font-size: 24px;
-      font-weight: 800;
-      color: var(--primary);
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
     }
 
     .stat-label {
@@ -1060,9 +1139,9 @@
 
     .progress-bar-fill {
       height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--purple));
+      background: var(--accent);
       border-radius: 8px;
-      transition: width 0.5s ease;
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .progress-percent {
@@ -1671,8 +1750,9 @@
 
     .picker-title {
       font-size: 16px;
-      font-weight: 800;
-      color: var(--primary);
+      font-weight: 700;
+      color: var(--text-primary);
+      font-family: 'Nunito', sans-serif;
       text-align: center;
       margin-bottom: 16px;
     }
@@ -1745,16 +1825,17 @@
     .mb-2 { margin-bottom: 16px; }
     .hidden { display: none !important; }
 
-    /* ========== Kawaii 顶部 Header ========== */
+    /* ========== Header — 安静退后，Jony原则 ========== */
     .kawaii-header {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       height: var(--header-height);
-      background: white;
-      border-bottom: 2px solid var(--border);
-      box-shadow: 0 4px 16px rgba(255,79,163,0.08);
+      background: rgba(249,249,249,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1764,25 +1845,26 @@
     }
 
     .kawaii-title {
-      font-size: 28px;
+      font-size: 24px;
       font-weight: 900;
-      color: var(--primary);
+      color: var(--text-primary);
+      font-family: 'Nunito', sans-serif;
       font-style: italic;
       line-height: 1;
       letter-spacing: -0.5px;
     }
 
     .kawaii-title .star {
-      color: var(--yellow);
+      color: var(--accent);  /* accent只在这里点睛 */
       font-style: normal;
     }
 
     .kawaii-subtitle {
       font-size: 10px;
-      color: var(--purple);
-      letter-spacing: 0.08em;
-      margin-top: 3px;
-      font-weight: 600;
+      color: var(--text-weak);
+      letter-spacing: 0.1em;
+      margin-top: 4px;
+      font-weight: 500;
     }
 
     /* 今日日期行 */
@@ -1809,9 +1891,13 @@
       margin-left: 8px;
     }
 
-    /* 打卡按钮背景 */
+    /* checkin-area 使用 card-hero 层级，保留布局公用样式 */
     .checkin-area {
-      background: transparent;
+      position: fixed;
+      bottom: calc(var(--tab-bar-height) + var(--safe-bottom) + 12px);
+      left: 16px;
+      right: 16px;
+      z-index: 100;
     }
 
     /* 进度环占位 - 将来可扩展 */
@@ -1938,8 +2024,8 @@
       </div>
     </div>
 
-    <!-- 打卡区 -->
-    <div class="checkin-area">
+    <!-- 打卡区 — 英雄卡片，唯一的neo-brutal元素（Jony情感触点）-->
+    <div class="card-hero checkin-area">
       <div class="streak-text" id="streak-text">连续打卡 0 天</div>
       <div class="checkin-buttons">
         <button class="btn-check" id="btn-training" onclick="toggleCheckin('training')">
@@ -1992,7 +2078,7 @@
       <div class="card-title">🎯 每日目标</div>
       <div class="goal-grid">
         <div class="goal-item">
-          <div class="goal-number" id="daily-kcal">1280</div>
+          <div class="goal-number" id="daily-kcal">1500</div>
           <div class="goal-label">kcal 今日目标</div>
         </div>
         <div class="goal-item">
@@ -2001,10 +2087,10 @@
         </div>
       </div>
       <div class="kcal-types">
-        <div class="kcal-type type-strength">力量1280</div>
-        <div class="kcal-type type-cardio">有氧1150</div>
-        <div class="kcal-type type-dance">街舞1360</div>
-        <div class="kcal-type type-rest">休息1020</div>
+        <div class="kcal-type type-strength">力量1500</div>
+        <div class="kcal-type type-cardio">SIT1350</div>
+        <div class="kcal-type type-dance">街舞1550</div>
+        <div class="kcal-type type-rest">休息1150</div>
       </div>
     </div>
     
@@ -2429,8 +2515,8 @@
         <div class="rule-item">
           <span class="rule-icon">🚫</span>
           <div class="rule-content">
-            <strong>不做HIIT</strong>
-            <span>跳绳/波比跳等高强度有氧会掉肌肉，只做Zone 2单车</span>
+            <strong>每周加入1次SIT冲刺间歇</strong>
+            <span>周二做真正的全力冲刺+完全恢复；单车/跑步均可；Zone 2降为力量日收尾10min积极恢复</span>
           </div>
         </div>
         <div class="rule-item">
@@ -2632,26 +2718,28 @@
         youtube: 'hiLF_pF3EJM',
         bilibili: 'BV1LqdnYeEoc'
       },
-      'leg-curl': {
-        name: '哑铃夹腿弯举', nameEn: 'DB Leg Curl',
+      'band-leg-curl': {
+        name: '弹力带俯卧腿弯举', nameEn: 'Resistance Band Leg Curl',
         group: 'lower',
-        muscle: '腘绳肌（大腿后侧）',
-        sets: '3组', reps: '12-15次',
-        weight: '单个5-8kg', weightNote: '两脚夹住一个哑铃',
+        muscle: '腘绳肌（大腿后侧）· 比哑铃夹腿版阻力更稳定',
+        sets: '3组', reps: '12-15次/腿',
+        weight: '弹力带', weightNote: '将弹力带固定在桌腿/门框最底部，套在单侧脚踝上，俯卧',
         steps: [
-          '俯卧在瑜伽垫上，双腿伸直',
-          '双脚夹住一个哑铃（夹在脚踝处）',
-          '弯曲膝盖，把哑铃向臀部方向弯曲',
-          '顶峰停顿1秒',
-          '慢慢放下（3秒控制下降）'
+          '把弹力带一端固定在桌腿/门框底部（离地15cm以内）',
+          '俯卧在瑜伽垫上，让弹力带绕在脚踝（先练一侧）',
+          '腹部贴地，髋部贴地，全程不离地',
+          '弯曲膝盖把脚踝向臀部方向拉，顶峰停1秒',
+          '慢慢伸直，感受拉伸——放下比弯上去更重要',
+          '做完一侧12-15次再换另一侧'
         ],
         mistakes: [
-          '用力甩 → 控制速度，尤其慢慢放下',
-          '臀部翘起来 → 髋部贴地面'
+          '髋部翘起来 → 髋部全程贴地，只有小腿在动',
+          '用力甩 → 3秒慢慢放下，才是真的练',
+          '弹力带太松 → 需要全程有阻力感，调整固定点距离'
         ],
-        tips: ['控制放下的速度比弯上去更重要'],
-        youtube: 'ZHlBSI6JPsA',
-        bilibili: 'BV1pb4y1X7mr'
+        tips: ['没有床可以调角度不是问题，弹力带版本完全在平地俯卧做，更安全且阻力均匀'],
+        youtube: 'WzNHKBPPaAk',
+        bilibili: 'BV1yT411p7Kt'
       },
       'db-row': {
         name: '单臂哑铃划船', nameEn: 'Single-Arm DB Row',
@@ -2872,29 +2960,35 @@
       }
     };
 
-    // 力量日训练序列（10个动作）
-    const strengthRoutine = [
-      'goblet-squat','db-rdl','glute-bridge','bss','leg-curl',
+    // 力量日 A 序列（周一）—— 臀腿主导
+    const strengthRoutineA = [
+      'goblet-squat','db-rdl','glute-bridge','bss','band-leg-curl',
       'db-row','floor-press','db-ohp','plank','dead-bug'
+    ];
+
+    // 力量日 B 序列（周四）—— 全身爆发+上肢拉推变换
+    const strengthRoutineB = [
+      'db-rdl','glute-bridge','alt-lunge','db-swing','db-thruster',
+      'db-row','reverse-fly','db-ohp','farmer-walk','dead-bug'
     ];
 
     // 每周计划
     const weekPlan = {
-      1: { // 周一 力量日
-        type: 'strength', label: '力量', color: '#7c5cf5',
-        training: { exercises: strengthRoutine, finisher: '单车Zone 2 15min · 心率120-135' }
+      1: { // 周一 力量A日
+        type: 'strength', label: '力量A', color: '#7c5cf5',
+        training: { exercises: strengthRoutineA, finisher: '单车Zone 2 10min · 心率120以下 · 积极恢复放松' }
       },
-      2: { // 周二 有氧日
-        type: 'cardio', label: '有氧', color: '#10b981',
-        training: { exercises: [], finisher: '单车Zone 2 40-50min · 心率120-135 · 能说话但说不了完整句子' }
+      2: { // 周二 SIT间歇日
+        type: 'cardio', label: 'SIT', color: '#10b981',
+        training: { exercises: [], finisher: 'SIT冲刺间歇 · 户外跑步或单车 · 完整说明见训练卡片' }
       },
       3: { // 周三 街舞日
         type: 'dance', label: '街舞', color: '#ec4899',
         training: { exercises: [], finisher: '街舞2h15min · 18:30-20:45' }
       },
-      4: { // 周四 力量日
-        type: 'strength', label: '力量', color: '#7c5cf5',
-        training: { exercises: strengthRoutine, finisher: '单车Zone 2 15min · 心率120-135' }
+      4: { // 周四 力量B日
+        type: 'strength', label: '力量B', color: '#8b5cf6',
+        training: { exercises: strengthRoutineB, finisher: '单车Zone 2 10min · 心率120以下 · 积极恢复放松' }
       },
       5: { // 周五 休息日
         type: 'rest', label: '休息', color: '#9ca3af',
@@ -2902,7 +2996,7 @@
       },
       6: { // 周六 街舞日
         type: 'dance', label: '街舞', color: '#ec4899',
-        training: { exercises: [], finisher: '街舞2h15min · 18:30-20:45' }
+        training: { exercises: [], finisher: '街舞2h15min · 18:30-20:45' }  
       },
       7: { // 周日 街舞日
         type: 'dance', label: '街舞', color: '#ec4899',
@@ -2918,28 +3012,32 @@
 
     // 饮食方案
     const meals = {
-      strength: [ // 力量日 ~1280kcal / 117g蛋白
+      strength: [ // 力量日 ~1500kcal / 125g蛋白
         { time: '8:30', title: '第一餐', food: '250g鸡胸 + 一拳红薯 + 西兰花', tip: '鸡胸切片用黑胡椒+少量酱油+蒜煎；西兰花焯水后淋蚝油蒜蓉', kcal: 600, protein: '53g' },
+        { time: '12:30', title: '午间小食', food: '希腊酸奶150g + 一把坚果（核桃/杏仁10颗）', tip: '把第二餐一拆为二，减少7小时空窗，稳定血糖', kcal: 220, protein: '14g' },
         { time: '15:30', title: '第二餐', food: '200g清蒸鲈鱼 + 蔬菜汤 + 半碗杂粮粥', tip: '鱼蒸熟淋豉油+姜丝+葱花；汤：番茄+蘑菇+菠菜', kcal: 400, protein: '35g' },
-        { time: '17:00', title: '运动前', food: '1根香蕉', tip: '', kcal: 100, protein: '1g' },
-        { time: '~18:00', title: '运动后', food: '即食鸡胸1袋 + 1个水煮蛋', tip: '撕开就吃', kcal: 180, protein: '28g' }
+        { time: '17:00', title: '运动前', food: '1根香蕉 + 半袋即食鸡胸（约15g蛋白）', tip: '两者一起吃，碳水+蛋白激活训练状态；不饿也要吃', kcal: 220, protein: '16g' },
+        { time: '~18:00', title: '运动后', food: '即食鸡胸1袋 + 希腊酸奶150g', tip: '45分钟内吃完；合计≥37g蛋白，触发女性肌肉合成窗口', kcal: 310, protein: '37g' }
       ],
-      cardio: [ // 有氧日 ~1150kcal / 111g蛋白
+      cardio: [ // SIT日 ~1350kcal / 118g蛋白
         { time: '8:30', title: '第一餐', food: '200g虾仁 + 一拳糙米 + 凉拌黄瓜木耳', tip: '虾仁蒜蓉蒸或白灼；凉拌：醋+蒜+少量香油+酱油', kcal: 480, protein: '40g' },
+        { time: '12:30', title: '午间小食', food: '希腊酸奶150g', tip: '减少空窗，维持激素稳定', kcal: 130, protein: '12g' },
         { time: '15:30', title: '第二餐', food: '2全蛋 + 150g鸡胸丝 + 生菜沙拉', tip: '鸡胸水煮撕丝；沙拉：生菜+小番茄+洋葱+油醋汁', kcal: 420, protein: '45g' },
-        { time: '17:00', title: '运动前', food: '1根香蕉', tip: '', kcal: 100, protein: '1g' },
-        { time: '~18:00', title: '运动后', food: '酱牛肉100g', tip: '冰箱拿出来直接吃', kcal: 150, protein: '25g' }
+        { time: '17:00', title: '运动前', food: '1根香蕉 + 半袋即食鸡胸', tip: '碳水+蛋白给SIT冲刺供能；不能空腹去冲刺', kcal: 220, protein: '16g' },
+        { time: '~18:00', title: '运动后', food: '即食鸡胸1袋 + 希腊酸奶150g', tip: '45分钟内；SIT后恢复窗口同样关键', kcal: 310, protein: '37g' }
       ],
-      dance: [ // 街舞日 ~1360kcal / 119g蛋白
+      dance: [ // 街舞日 ~1550kcal / 128g蛋白
         { time: '8:30', title: '第一餐', food: '250g瘦牛肉 + 一拳紫薯 + 清炒时蔬', tip: '牛肉切薄片快炒（蚝油+黑胡椒）；时蔬随季节换', kcal: 650, protein: '52g' },
+        { time: '12:30', title: '午间小食', food: '水煮蛋2个 + 小番茄一把', tip: '维持全天能量，街舞消耗大今天多吃一点', kcal: 180, protein: '13g' },
         { time: '15:30', title: '第二餐', food: '200g豆腐 + 100g虾仁 + 蘑菇蔬菜汤', tip: '嫩豆腐煎至两面微黄+酱油；虾仁放汤里', kcal: 430, protein: '38g' },
-        { time: '18:00', title: '街舞前', food: '1根香蕉', tip: '出门前吃', kcal: 100, protein: '1g' },
-        { time: '21:00', title: '街舞后', food: '即食鸡胸1袋 + 1个水煮蛋', tip: '到家吃，不长肉', kcal: 180, protein: '28g' }
+        { time: '18:00', title: '街舞前', food: '1根香蕉 + 半袋即食鸡胸', tip: '出门前15-20min吃，碳水+蛋白供能', kcal: 220, protein: '16g' },
+        { time: '21:00', title: '街舞后', food: '即食鸡胸1袋 + 希腊酸奶150g', tip: '到家就吃，45分钟内；舞后蛋白质补充≥37g，不长肉', kcal: 310, protein: '37g' }
       ],
-      rest: [ // 休息日 ~1020kcal / 105g蛋白
+      rest: [ // 休息日 ~1150kcal / 108g蛋白
         { time: '8:30', title: '第一餐', food: '200g鸡腿去皮 + 一小拳玉米 + 凉拌菠菜', tip: '鸡腿煎/烤（蒜+黑胡椒+少量蜂蜜酱油）；菠菜焯水+蒜泥+醋', kcal: 500, protein: '38g' },
+        { time: '12:30', title: '午间小食', food: '希腊酸奶150g', tip: '休息日也不要空腹超过5小时', kcal: 130, protein: '12g' },
         { time: '15:30', title: '第二餐', food: '200g虾白灼 + 蔬菜汤', tip: '汤：冬瓜+海带+嫩豆腐', kcal: 370, protein: '42g' },
-        { time: '加餐', title: '如饿加餐', food: '酱牛肉100g', tip: '休息日蛋白偏低，建议加餐选酱牛肉（25g蛋白 > 水煮蛋12g）', kcal: 150, protein: '25g' }
+        { time: '加餐', title: '如饿加餐', food: '酱牛肉100g', tip: '蛋白偏低时补，25g蛋白质', kcal: 150, protein: '25g' }
       ]
     };
 
@@ -3099,10 +3197,54 @@
         return;
       }
       
-      // 有氧日/街舞日：只显示训练说明
+      // SIT间歇日：展示详细步骤卡片
+      if (plan.type === 'cardio') {
+        container.innerHTML = `
+          <div class="training-item">
+            <div class="training-header" onclick="this.nextElementSibling.classList.toggle('expanded')">
+              <div class="training-info">
+                <div class="training-name">⚡ SIT 冲刺间歇训练</div>
+                <div class="training-meta">总时长约30-35min · 户外跑步或加阻力单车二选一</div>
+              </div>
+            </div>
+            <div class="training-detail expanded" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+              <div style="overflow:hidden">
+                <div class="training-steps">
+                  <strong style="color:var(--text-primary)">什么是真正的SIT（≠ 普通HIIT课）</strong><br>
+                  SIT = 10-30秒 <strong>绝对全力</strong>（跑不动说话了），然后 <strong>2-4分钟完全恢复</strong>（慢走/停）。不是持续喘气，是"全力冲 → 完全缓" 的交替。<br><br>
+
+                  <strong style="color:var(--text-primary)">🏃 户外跑步版（推荐，更容易全力）</strong><br>
+                  1. 热身：慢跑5min，步行2min<br>
+                  2. 冲刺：找一段直路，<strong>全力跑20-30秒</strong>（感觉跑不动为止）<br>
+                  3. 恢复：<strong>慢走2-3分钟</strong>，心率降到130以下再开始下一组<br>
+                  4. 重复4-6组（第一次先做4组，适应后加到6组）<br>
+                  5. 收尾：慢走5min放松<br><br>
+
+                  <strong style="color:var(--text-primary)">🚴 单车版（阻力要调到大才有效）</strong><br>
+                  1. 热身：低阻力慢蹬5min<br>
+                  2. 阻力调到<strong>明显费力</strong>，全力蹬<strong>20秒</strong>（腿发酸发软）<br>
+                  3. 恢复：阻力调小，<strong>慢蹬2分钟</strong>完全缓过来<br>
+                  4. 重复4-6组<br>
+                  5. 收尾：低阻慢蹬5min<br><br>
+
+                  <strong style="color:var(--text-primary)">判断是否做对了</strong><br>
+                  ✓ 每组冲刺结束后腿酸、喘不上来气 = 正确<br>
+                  ✗ 全程心率150-170维持着 = 这是普通有氧，不是SIT<br>
+                  ✓ 恢复期真的缓过来了才开始下一组 = 正确
+                </div>
+                <div class="training-mistake">⚠️ 最常见错误：阻力太低或跑太慢，整个过程"有点累但还好"——这是无效SIT，宁可少做几组也要保证每组真的全力</div>
+              </div>
+            </div>
+          </div>
+          <div class="training-note">📖 为什么这样练：SIT触发女性需要的生长激素响应，是Zone 2做不到的；每周1次足够，不需要更多</div>
+        `;
+        return;
+      }
+
+      // 街舞日：显示训练说明
       container.innerHTML = `
         <div class="training-note">
-          ${plan.type === 'cardio' ? '🚴' : '💃'} ${plan.training.finisher}
+          💃 ${plan.training.finisher}
         </div>
       `;
     }
@@ -3437,10 +3579,10 @@
     function updateDailyKcal() {
       const plan = getTodayPlan();
       const kcalMap = {
-        strength: 1280,
-        cardio: 1150,
-        dance: 1360,
-        rest: 1020
+        strength: 1500,
+        cardio: 1350,
+        dance: 1550,
+        rest: 1150
       };
       const kcalEl = document.getElementById('daily-kcal');
       if (kcalEl) {
