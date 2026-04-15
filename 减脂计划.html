@@ -3352,7 +3352,7 @@
                   <div style="font-size:15px;font-weight:500;color:var(--t1);">${index + 1}. ${ex.name}</div>
                   <div style="font-size:12px;color:var(--t3);margin-top:2px;">${ex.sets} ${ex.reps} · ${ex.weight}</div>
                 </div>
-                ${ex.video ? `<button class="video-btn" onclick="playVideo('${exId}', '${ex.name}')" title="观看教学">▶</button>` : ''}
+                ${ex.bilibili ? `<button class="video-btn" onclick="playVideo('${exId}', '${ex.name}')" title="观看教学">▶</button>` : ''}
               </div>
             </div>
           `;
@@ -3401,15 +3401,19 @@
       const mealsData = meals[plan.type] || meals.strength;
 
       const mealsHtml = mealsData.map(meal => `
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);font-size:13px;">
-          <div>
-            <div style="font-weight:500;color:var(--t1);">${meal.title}</div>
-            <div style="color:var(--t2);margin-top:2px;font-size:12px;">${meal.food}</div>
+        <div style="padding:12px 0;border-bottom:1px solid var(--line);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span style="font-size:12px;color:var(--accent);font-weight:500;">${meal.time}</span>
+              <span style="font-weight:500;color:var(--t1);font-size:14px;">${meal.title}</span>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-weight:600;color:var(--t1);font-size:13px;">${meal.kcal}kcal</div>
+              <div style="font-size:11px;color:var(--t3);">${meal.protein}</div>
+            </div>
           </div>
-          <div style="text-align:right;flex-shrink:0;">
-            <div style="font-weight:600;color:var(--t1);">${meal.kcal}kcal</div>
-            <div style="font-size:11px;color:var(--t3);">${meal.protein}</div>
-          </div>
+          <div style="color:var(--t2);font-size:13px;line-height:1.5;">${meal.food}</div>
+          <div style="color:var(--t3);font-size:11px;margin-top:4px;font-style:italic;">💡 ${meal.tip}</div>
         </div>
       `).join('');
 
@@ -3434,10 +3438,10 @@
     // 播放视频
     function playVideo(exId, exName) {
       const ex = exercises[exId];
-      if (!ex?.video) return;
+      if (!ex?.bilibili) return;
 
       // 提取B站BV号
-      const bvMatch = ex.video.match(/BV[\w]+/);
+      const bvMatch = ex.bilibili.match(/BV[\w]+/);
       if (!bvMatch) return;
 
       const bvid = bvMatch[0];
