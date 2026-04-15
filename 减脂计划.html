@@ -2213,8 +2213,11 @@
       <!-- 点击提示 -->
       <div class="welcome-hint">点击任意处开始</div>
 
-      <!-- 切换训练类型按钮（小） -->
-      <button class="btn-switch-training" onclick="event.stopPropagation(); showTrainingPicker()" style="margin-top: 24px; opacity: 0.5;">切换训练类型</button>
+      <!-- 切换训练类型 -->
+      <div class="training-switch-area" style="margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+        <div style="font-size: 12px; color: var(--t3);">需要调整今日训练？</div>
+        <button class="btn-switch-training" onclick="event.stopPropagation(); showTrainingPicker()" style="opacity: 0.6; font-size: 13px; padding: 8px 16px;">⚡ 切换训练类型</button>
+      </div>
     </div>
 
     <!-- 训练类型选择底部弹层 -->
@@ -2223,10 +2226,15 @@
       <div class="picker-handle"></div>
       <div class="picker-title">今日训练 · 选一个 ✦</div>
       <div class="picker-options">
-        <button class="picker-option" onclick="applyTrainingOverride('strength')">
+        <button class="picker-option" onclick="applyTrainingOverride('strengthA')">
           <span class="picker-opt-icon">🏋️</span>
-          <span class="picker-opt-label">力量日</span>
-          <span class="picker-opt-desc">深蹲 硬拉 臀推…</span>
+          <span class="picker-opt-label">力量A日</span>
+          <span class="picker-opt-desc">臀腿主导 · 深蹲 硬拉 臀推</span>
+        </button>
+        <button class="picker-option" onclick="applyTrainingOverride('strengthB')">
+          <span class="picker-opt-icon">🏋️‍♀️</span>
+          <span class="picker-opt-label">力量B日</span>
+          <span class="picker-opt-desc">全身爆发 · 拉推变换</span>
         </button>
         <button class="picker-option" onclick="applyTrainingOverride('cardio')">
           <span class="picker-opt-icon">🚴</span>
@@ -2842,7 +2850,7 @@
     // 每周计划
     const weekPlan = {
       1: { // 周一 力量A日
-        type: 'strength', label: '力量A', color: '#7c5cf5',
+        type: 'strengthA', label: '力量A', color: '#7c5cf5',
         training: { exercises: strengthRoutineA, finisher: '单车Zone 2 10min · 心率120以下 · 积极恢复放松' }
       },
       2: { // 周二 SIT间歇日
@@ -2854,7 +2862,7 @@
         training: { exercises: [], finisher: '街舞2h15min · 18:30-20:45' }
       },
       4: { // 周四 力量B日
-        type: 'strength', label: '力量B', color: '#8b5cf6',
+        type: 'strengthB', label: '力量B', color: '#8b5cf6',
         training: { exercises: strengthRoutineB, finisher: '单车Zone 2 10min · 心率120以下 · 积极恢复放松' }
       },
       5: { // 周五 休息日
@@ -2872,14 +2880,30 @@
     };
 
     // 按类型名查找 plan（供覆盖功能使用）
-    weekPlan['strength'] = weekPlan[1];
-    weekPlan['cardio']   = weekPlan[2];
-    weekPlan['dance']    = weekPlan[3];
-    weekPlan['rest']     = weekPlan[5];
+    weekPlan['strength']  = weekPlan[1]; // 兼容旧版
+    weekPlan['strengthA'] = weekPlan[1]; // 力量A日
+    weekPlan['strengthB'] = weekPlan[4]; // 力量B日
+    weekPlan['cardio']    = weekPlan[2];
+    weekPlan['dance']     = weekPlan[3];
+    weekPlan['rest']      = weekPlan[5];
 
     // 饮食方案
     const meals = {
-      strength: [ // 力量日 ~1500kcal / 125g蛋白
+      strength:  [ // 力量日 ~1500kcal / 125g蛋白（兼容旧版）
+        { time: '8:30', title: '第一餐', food: '250g鸡胸 + 一拳红薯 + 西兰花', tip: '鸡胸切片用黑胡椒+少量酱油+蒜煎；西兰花焯水后淋蚝油蒜蓉', kcal: 600, protein: '53g' },
+        { time: '12:30', title: '午间小食', food: '希腊酸奶150g + 一把坚果（核桃/杏仁10颗）', tip: '把第二餐一拆为二，减少7小时空窗，稳定血糖', kcal: 220, protein: '14g' },
+        { time: '15:30', title: '第二餐', food: '200g清蒸鲈鱼 + 蔬菜汤 + 半碗杂粮粥', tip: '鱼蒸熟淋豉油+姜丝+葱花；汤：番茄+蘑菇+菠菜', kcal: 400, protein: '35g' },
+        { time: '17:00', title: '运动前', food: '1根香蕉 + 半袋即食鸡胸（约15g蛋白）', tip: '两者一起吃，碳水+蛋白激活训练状态；不饿也要吃', kcal: 220, protein: '16g' },
+        { time: '~18:00', title: '运动后', food: '即食鸡胸1袋 + 希腊酸奶150g', tip: '45分钟内吃完；合计≥37g蛋白，触发女性肌肉合成窗口', kcal: 310, protein: '37g' }
+      ],
+      strengthA: [ // 力量A日（同力量日）
+        { time: '8:30', title: '第一餐', food: '250g鸡胸 + 一拳红薯 + 西兰花', tip: '鸡胸切片用黑胡椒+少量酱油+蒜煎；西兰花焯水后淋蚝油蒜蓉', kcal: 600, protein: '53g' },
+        { time: '12:30', title: '午间小食', food: '希腊酸奶150g + 一把坚果（核桃/杏仁10颗）', tip: '把第二餐一拆为二，减少7小时空窗，稳定血糖', kcal: 220, protein: '14g' },
+        { time: '15:30', title: '第二餐', food: '200g清蒸鲈鱼 + 蔬菜汤 + 半碗杂粮粥', tip: '鱼蒸熟淋豉油+姜丝+葱花；汤：番茄+蘑菇+菠菜', kcal: 400, protein: '35g' },
+        { time: '17:00', title: '运动前', food: '1根香蕉 + 半袋即食鸡胸（约15g蛋白）', tip: '两者一起吃，碳水+蛋白激活训练状态；不饿也要吃', kcal: 220, protein: '16g' },
+        { time: '~18:00', title: '运动后', food: '即食鸡胸1袋 + 希腊酸奶150g', tip: '45分钟内吃完；合计≥37g蛋白，触发女性肌肉合成窗口', kcal: 310, protein: '37g' }
+      ],
+      strengthB: [ // 力量B日（同力量日）
         { time: '8:30', title: '第一餐', food: '250g鸡胸 + 一拳红薯 + 西兰花', tip: '鸡胸切片用黑胡椒+少量酱油+蒜煎；西兰花焯水后淋蚝油蒜蓉', kcal: 600, protein: '53g' },
         { time: '12:30', title: '午间小食', food: '希腊酸奶150g + 一把坚果（核桃/杏仁10颗）', tip: '把第二餐一拆为二，减少7小时空窗，稳定血糖', kcal: 220, protein: '14g' },
         { time: '15:30', title: '第二餐', food: '200g清蒸鲈鱼 + 蔬菜汤 + 半碗杂粮粥', tip: '鱼蒸熟淋豉油+姜丝+葱花；汤：番茄+蘑菇+菠菜', kcal: 400, protein: '35g' },
@@ -2993,14 +3017,17 @@
       const todayKey = getTodayKey();
       const hasOverride = !!localStorage.getItem(`training-override-${todayKey}`);
       labelEl.textContent = plan.label + (hasOverride ? ' ✦' : '');
-      labelEl.className = `label label-${plan.type}`;
+      // strengthA和strengthB都使用label-strength样式
+      const labelClass = plan.type === 'strengthA' || plan.type === 'strengthB' ? 'strength' : plan.type;
+      labelEl.className = `label label-${labelClass}`;
       labelEl.title = hasOverride ? '今日计划已修改（点🔄可恢复）' : '';
     }
 
     // 渲染饮食时间轴
     function renderTodayMeals() {
       const plan = getTodayPlan();
-      const mealsData = meals[plan.type];
+      // strengthA和strengthB都使用strength的饮食方案
+      const mealsData = meals[plan.type] || meals.strength;
       const container = document.getElementById('today-meals');
       
       container.innerHTML = mealsData.map((meal, index) => `
@@ -3028,8 +3055,8 @@
         return;
       }
       
-      // 力量日：渲染10个动作
-      if (plan.type === 'strength') {
+      // 力量日：渲染10个动作（包括strengthA和strengthB）
+      if (plan.type === 'strength' || plan.type === 'strengthA' || plan.type === 'strengthB') {
         const exercisesHtml = plan.training.exercises.map((exId, index) => {
           const ex = exercises[exId];
           return `
@@ -3293,6 +3320,8 @@
       const plan = getTodayPlan();
       const dayTypeMap = {
         strength: { text: '力量日', class: 'day-strength' },
+        strengthA: { text: '力量A日', class: 'day-strength' },
+        strengthB: { text: '力量B日', class: 'day-strength' },
         cardio: { text: '有氧日', class: 'day-cardio' },
         dance: { text: '街舞日', class: 'day-dance' },
         rest: { text: '休息日', class: 'day-rest' }
@@ -3318,7 +3347,14 @@
       const plan = getTodayPlan();
 
       // 更新标签
-      const labelMap = { strength: '力量', cardio: '有氧', dance: '街舞', rest: '休息' };
+      const labelMap = {
+        strength: '力量',
+        strengthA: '力量A',
+        strengthB: '力量B',
+        cardio: '有氧',
+        dance: '街舞',
+        rest: '休息'
+      };
       document.getElementById('today-label').textContent = labelMap[plan.type] || '训练';
 
       // 渲染训练列表
@@ -3339,8 +3375,8 @@
         return;
       }
 
-      // 力量日
-      if (plan.type === 'strength') {
+      // 力量日（包括strengthA和strengthB）
+      if (plan.type === 'strength' || plan.type === 'strengthA' || plan.type === 'strengthB') {
         const exercisesHtml = plan.training.exercises.map((exId, index) => {
           const ex = exercises[exId];
           return `
@@ -3396,6 +3432,7 @@
     // 渲染简化版食谱
     function renderCompactMeals(plan) {
       const container = document.getElementById('today-meals-compact');
+      // strengthA和strengthB都使用strength的饮食方案
       const mealsData = meals[plan.type] || meals.strength;
 
       const mealsHtml = mealsData.map(meal => `
